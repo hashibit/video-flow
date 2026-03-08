@@ -1,0 +1,424 @@
+{
+  "ResponseMetadata": {
+    "RequestId": "",
+    "Action": "",
+    "Version": "",
+    "Service": "",
+    "Region": ""
+  },
+  "Result": {
+    "Id": 122,
+    "Name": "投资风口飘忽不定，如何“捕捉基会”-07",
+    "Scenario": {
+      "Id": 40,
+      "Name": "公域基金直播测试场景",
+      "RuleSections": [
+        {
+          "Id": 50,
+          "Name": "敏感词-基金名称和代码",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 2,
+          "RulePoints": [
+            {
+              "Id": 50,
+              "Name": "敏感词-基金名称和代码",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "banword",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": {
+                "RequireJobs": [
+                  "banword_detection"
+                ],
+                "Banwords": ["000001"],
+                "RequiredWords": null,
+                "BanwordGroupId": 0
+              },
+              "SubtitleCfg": null,
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        },
+        {
+          "Id": 49,
+          "Name": "敏感词-上市公司名称和代码",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 2,
+          "RulePoints": [
+            {
+              "Id": 49,
+              "Name": "敏感词-上市公司名称和代码",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "banword",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": {
+                "RequireJobs": [
+                  "banword_detection"
+                ],
+                "Banwords": ["ST 正邦"],
+                "RequiredWords": null,
+                "BanwordGroupId": 0
+              },
+              "SubtitleCfg": null,
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        },
+        {
+          "Id": 51,
+          "Name": "敏感词-常见敏感词语",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 2,
+          "RulePoints": [
+            {
+              "Id": 51,
+              "Name": "敏感词-常见敏感词语",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "banword",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": {
+                "RequireJobs": [
+                  "banword_detection"
+                ],
+                "Banwords": ["尽享牛市"],
+                "RequiredWords": null,
+                "BanwordGroupId": 0
+              },
+              "SubtitleCfg": null,
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        },
+        {
+          "Id": 53,
+          "Name": "产品合规展示-基金2-代码、名称、业绩",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 4,
+          "RulePoints": [
+            {
+              "Id": 53,
+              "Name": "产品合规展示-基金2-代码、名称、业绩",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "subtitle",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": null,
+              "SubtitleCfg": {
+                "RequireJobs": [
+                  "subtitle_match"
+                ],
+                "Fps": 0.5,
+                "Texts": [
+                  {
+                    "TextIndex": 1,
+                    "Text": "华夏养老2040三年混合A FOF 平衡级",
+                    "Threshold": 0.6,
+                    "TimePatchs": [],
+                    "TimeRangeType": 0,
+                    "EmergencyType": 0,
+                    "TextType": 0,
+                    "MinTextNumber": 10,
+                    "CumulativeThreshold": 0.4,
+                    "ContinuousAppearanceTimes": 4
+                  }
+                ]
+              },
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        },
+        {
+          "Id": 52,
+          "Name": "产品合规展示-基金1-代码、名称、业绩",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 4,
+          "RulePoints": [
+            {
+              "Id": 52,
+              "Name": "产品合规展示-基金1-代码、名称、业绩",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "subtitle",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": null,
+              "SubtitleCfg": {
+                "RequireJobs": [
+                  "subtitle_match"
+                ],
+                "Fps": 0.5,
+                "Texts": [
+                  {
+                    "TextIndex": 1,
+                    "Text": "招商和悦稳健养老一年混合A 混合型 平衡级",
+                    "Threshold": 0.6,
+                    "TimePatchs": [],
+                    "TimeRangeType": 0,
+                    "EmergencyType": 0,
+                    "TextType": 0,
+                    "MinTextNumber": 10,
+                    "CumulativeThreshold": 0.4,
+                    "ContinuousAppearanceTimes": 4
+                  }
+                ]
+              },
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        },
+        {
+          "Id": 55,
+          "Name": "持牌人士信息展示-人物1",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 4,
+          "RulePoints": [
+            {
+              "Id": 55,
+              "Name": "持牌人士信息展示-人物1",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "subtitle",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": null,
+              "SubtitleCfg": {
+                "RequireJobs": [
+                  "subtitle_match"
+                ],
+                "Fps": 0.5,
+                "Texts": [
+                  {
+                    "TextIndex": 1,
+                    "Text": "张三 S123123123123",
+                    "Threshold": 0.8,
+                    "TimePatchs": [],
+                    "TimeRangeType": 0,
+                    "EmergencyType": 0,
+                    "TextType": 0,
+                    "MinTextNumber": 10,
+                    "CumulativeThreshold": 0.4,
+                    "ContinuousAppearanceTimes": 6
+                  }
+                ]
+              },
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        },
+        {
+          "Id": 47,
+          "Name": "风险提示文字展示",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 4,
+          "RulePoints": [
+            {
+              "Id": 47,
+              "Name": "风险提示文字展示",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "subtitle",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": null,
+              "SubtitleCfg": {
+                "RequireJobs": [
+                  "subtitle_match"
+                ],
+                "Fps": 0.5,
+                "Texts": [
+                  {
+                    "TextIndex": 1,
+                    "Text": "直播间所有信息仅供参考，不构成任何投资建议，亦不应该被理解为任何形式的保证或承诺。直播内容仅用于投资者教育之目的。",
+                    "Threshold": 0.6,
+                    "TimePatchs": [],
+                    "TimeRangeType": 0,
+                    "EmergencyType": 0,
+                    "TextType": 0,
+                    "MinTextNumber": 10,
+                    "CumulativeThreshold": 0.4,
+                    "ContinuousAppearanceTimes": 6
+                  }
+                ]
+              },
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        },
+        {
+          "Id": 57,
+          "Name": "全文脚本符合度比对",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 1,
+          "RulePoints": [
+            {
+              "Id": 57,
+              "Name": "全文脚本符合度比对",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "script",
+              "ScriptCfg": {
+                "RequireJobs": [
+                  "script_match"
+                ],
+                "Script": "去解决这个长期的钱，例如退休后的养老资金。这部分钱它的持有期是会非常长的。就像我们刚才提到的，像90后左右的群体，距离退休其实还有很长时间。\n所以，养老类型的基金，基金经理在对这个产品做定位的时候呢，也是要看这么长、做这么长。当然呢，不可避免一个养老基金的经理可能很难管一个产品20年30年，所以监管方面也是会比较机动。有的养老基金，它会设一年的持有期；有的会设三年，有的会设5年的持有期。这也是尽可能是帮助大家来去做长，但同时也考虑到投资人可能会因为基金经理的变动想更换产品。\n我们说养老基金是一类“看长做长”的产品，它还会再分成两类：目标风险型、目标日期型。\n那么普通养老基金呢，它其实跟这个会有一些差别。主要是，他里面是没有目标日期这种策略的，。选机跟踪和这个调查会比这个这个我看咱们的产品列表里面啊，有这个链接2，他跟这刚才我们讲的招商合约稳健养老它就有所不同。它叫华夏养老2040，那能不能张明老师给大家介绍一下华夏养老的这支基金它有什么区别呢？\n跟上一支好的好的，那华夏养老2040三年这个产品呢，其实大家从名字里面很容易看到，它里面其实是有一个2040这个目标日期的。",
+                "ScriptThreshold": 0.6
+              },
+              "SameFrameCfg": null,
+              "BanwordCfg": null,
+              "SubtitleCfg": null,
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        },
+        {
+          "Id": 54,
+          "Name": "产品合规展示-基金3-代码、名称、业绩",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 4,
+          "RulePoints": [
+            {
+              "Id": 54,
+              "Name": "产品合规展示-基金3-代码、名称、业绩",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "subtitle",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": null,
+              "SubtitleCfg": {
+                "RequireJobs": [
+                  "subtitle_match"
+                ],
+                "Fps": 0.5,
+                "Texts": [
+                  {
+                    "TextIndex": 1,
+                    "Text": "中欧预见养老2050五年持有（FOF）A 混合型 成长级",
+                    "Threshold": 0.6,
+                    "TimePatchs": [],
+                    "TimeRangeType": 0,
+                    "EmergencyType": 0,
+                    "TextType": 0,
+                    "MinTextNumber": 10,
+                    "CumulativeThreshold": 0.4,
+                    "ContinuousAppearanceTimes": 4
+                  }
+                ]
+              },
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        },
+        {
+          "Id": 56,
+          "Name": "持牌人士信息展示-人物2",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 4,
+          "RulePoints": [
+            {
+              "Id": 56,
+              "Name": "持牌人士信息展示-人物2",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "subtitle",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": null,
+              "SubtitleCfg": {
+                "RequireJobs": [
+                  "subtitle_match"
+                ],
+                "Fps": 0.5,
+                "Texts": [
+                  {
+                    "TextIndex": 1,
+                    "Text": "李四 S22222222222",
+                    "Threshold": 0.8,
+                    "TimePatchs": [],
+                    "TimeRangeType": 0,
+                    "EmergencyType": 0,
+                    "TextType": 0,
+                    "MinTextNumber": 10,
+                    "CumulativeThreshold": 0.4,
+                    "ContinuousAppearanceTimes": 6
+                  }
+                ]
+              },
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        },
+        {
+          "Id": 48,
+          "Name": "风险提示滚动提示",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 4,
+          "RulePoints": [
+            {
+              "Id": 48,
+              "Name": "风险提示滚动提示",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "subtitle",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": null,
+              "SubtitleCfg": {
+                "RequireJobs": [
+                  "subtitle_match"
+                ],
+                "Fps": 0.25,
+                "Texts": [
+                  {
+                    "TextIndex": 1,
+                    "Text": "定投风险提示：定期定额投资是引导投资者进行长期投资、平均成本投资的一种简单易行的投资方式；但并不能规避基金投资所固有的风险，不能保证投资者获得收益，也不是替代储蓄的等效理财方式）视频内容仅代表嘉宾个人观点，不代表公司观点，视频内容不构成任何产品宣传、推介，不构成任何投资建议，亦不构成任何投资保证、成果；市场有风险，投资需谨慎；本材料禁止转载；详细阅读《基金合同》、《招募说明书》及《产品资料概要》等文件基础上，选择风险承受能力、投资目标的产品谨慎投资。投资有风险，投资需谨慎，本直播间内容不作为任何法律文件。本视频仅供参考，不构成任何投资建议和保证。市场有风险投资需谨慎。",
+                    "Threshold": 0.5,
+                    "TimePatchs": [],
+                    "TimeRangeType": 0,
+                    "EmergencyType": 0,
+                    "TextType": 1,
+                    "MinTextNumber": 10,
+                    "CumulativeThreshold": 0.4,
+                    "ContinuousAppearanceTimes": 0
+                  }
+                ]
+              },
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        }
+      ]
+    },
+    "Media": {
+      "Path": "/tmp/"
+    }
+  }
+}

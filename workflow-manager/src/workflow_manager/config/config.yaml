@@ -1,0 +1,26 @@
+# Database Configuration
+db_config:
+  db_type: "sqlite"
+  dsn: "sqlite:///./workflow_manager.db"
+  # For PostgreSQL use:
+  # dsn: "postgresql://user:password@localhost:5432/workflow_manager"
+
+# Logging Configuration
+log_config:
+  level: "INFO"
+  enable_curl_log: false
+  enable_gorm_log: false
+
+# External API Configuration
+external_apiconfig:
+  # URL or PSM for the external API
+  psm: ""
+
+# gRPC Server Configuration
+grpc_server_config:
+  endpoint: "0.0.0.0:50051"
+
+# Scheduler Configuration
+scheduler_config:
+  enabled: true
+  interval_seconds: 5

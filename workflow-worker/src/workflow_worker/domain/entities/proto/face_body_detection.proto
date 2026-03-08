@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+import "base.proto";
+
+package detection;
+
+message RespBase {
+    int32 time_elapsed = 1;
+    int32 received_at = 2;
+    int32 sent_at = 3;
+}
+
+message Box {
+    int32 x1 = 1;
+    int32 y1 = 2;
+    int32 x2 = 3;
+    int32 y2 = 4;
+}
+
+message Object {
+    string chn_name = 1;
+    string eng_name = 2;
+    Box box = 3;
+    double score = 4;
+}
+
+message Request {
+    repeated bytes imgs = 1;
+    base.Base base = 2;
+}
+
+message Response {
+    repeated Object result = 1;
+    RespBase base = 2;
+    base.BaseResp base_resp = 3;
+}
+
+service DetectionService {
+    rpc Predict(Request) returns (Response);
+}

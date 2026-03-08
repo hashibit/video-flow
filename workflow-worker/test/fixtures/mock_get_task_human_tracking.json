@@ -1,0 +1,74 @@
+{
+  "ResponseMetadata": {
+    "RequestId": "",
+    "Action": "",
+    "Version": "",
+    "Service": "",
+    "Region": ""
+  },
+  "Result": {
+    "Id": 123,
+    "Name": "对公开户-场景一",
+    "Scenario": {
+      "Id": 53,
+      "Name": "对公开户",
+      "BizCategory": 0,
+      "TemporalScopeCategory": 0,
+      "Type": 4,
+      "RuleSections": [
+        {
+          "Id": 53,
+          "Name": "同框检测",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 4,
+          "RulePoints": [
+            {
+              "Id": 53,
+              "Name": "同框检测",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "same_frame",
+              "ScriptCfg": null,
+              "SameFrameCfg": {
+                "Fps": 2.0,
+                "MinTimeInterval": 5.0,
+                "Ratio": 0.8,
+                "LostWarningThreshold": 10,
+                "NumOfPeople": 3,
+                "CumulativeNumber": 3,
+                "StrangerWarningFlag": false,
+                "FaceVerificationThreshold": 0.6
+              },
+              "BanwordCfg": null,
+              "SubtitleCfg": null,
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        }
+      ]
+    },
+    "Participants": [
+      {
+        "Requirement": "01",
+        "Role": "a",
+        "Picture": 112
+      },
+      {
+        "Requirement": "01",
+        "Role": "b",
+        "Picture": 113
+      },
+      {
+        "Requirement": "01",
+        "Role": "c",
+        "Picture": 114
+      }
+    ],
+    "Media": {
+      "Path": "/home/zyb/chenjie/biaozhunshuanglu-v2-cut-one-lost-10s.mp4",
+      "MediaURL": ""
+    }
+  }
+}

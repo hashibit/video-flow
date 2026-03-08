@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package workflow.media;
+
+// Content from media_model.proto
+enum NotifyStatus{
+  normal = 0;
+  failed = 1;
+  finish = 2;
+  start = 3;
+}
+
+enum Code{
+  unknown = 0;
+  success = 1;
+  error = 2;
+}
+
+// A single recognized word.
+message Word{
+  string text = 1;
+  int64 start_ts = 2;
+  int64 end_ts = 3;
+}
+
+// A sentence / utterance containing one or more words.
+message Utterance{
+  string text = 1;
+  repeated Word words = 2;
+  int64 start_ts = 3;
+  int64 end_ts = 4;
+};
+
+// An audio segment or the full audio track.
+message Audio{
+  string url = 1;
+  string text = 2;
+  repeated Utterance utterances = 3;
+  int64 start_ts = 4;
+  int64 end_ts = 5;
+}
+
+message Image{
+  bytes data = 1;
+  string url = 2;
+  int64 ts = 3;
+  uint64 frame_number = 4; // current frame number, 1/2/3/...
+}
+
+// End of content from media_model.proto
+
+message FetchMediaDataRequest {
+  uint64 media_id = 1; // media id
+  uint32 timeout = 2; // timeout in seconds; the server will close the gRPC stream after this duration
+}
+
+message FetchMediaDataResponse {
+  Code code = 1;
+  string message = 2;
+  uint64 task_id = 3; // task id
+  NotifyStatus status = 4; // status: 0=ok, 1=failed, 2=ended, 3=started; all other fields are ignored when non-zero
+  oneof data{
+    Audio audio = 5;
+    Image image = 6;
+  }
+}
+
+service MediaService{
+  rpc FetchMediaData(FetchMediaDataRequest)returns(stream FetchMediaDataResponse);
+}

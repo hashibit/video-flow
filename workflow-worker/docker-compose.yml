@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  workflow-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: workflow-worker:latest
+    container_name: workflow-worker
+
+    # Environment variables
+    environment:
+      - PYTHONUNBUFFERED=1
+      - IDRS_ENGINE_ENV=development
+      # Add your environment variables here
+      # - WORKFLOW_MANAGER_HOST=workflow-manager:50051
+      # - MEDIA_MANAGER_HOST=media-manager:50052
+
+    # Mount volumes for development (comment out for production)
+    volumes:
+      - ./src:/app/src:ro
+      - ./logs:/app/logs
+      # - ./configs:/app/configs:ro
+
+    # Network
+    networks:
+      - workflow-network
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+    # Dependencies (uncomment if needed)
+    # depends_on:
+    #   - redis
+    #   - postgres
+
+  # Optional: Redis for caching
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: workflow-redis
+  #   networks:
+  #     - workflow-network
+  #   restart: unless-stopped
+
+  # Optional: PostgreSQL for database
+  # postgres:
+  #   image: postgres:16-alpine
+  #   container_name: workflow-postgres
+  #   environment:
+  #     POSTGRES_DB: workflow_worker
+  #     POSTGRES_USER: workflow
+  #     POSTGRES_PASSWORD: workflow_password
+  #   networks:
+  #     - workflow-network
+  #   volumes:
+  #     - postgres-data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+
+networks:
+  workflow-network:
+    driver: bridge
+
+# volumes:
+#   postgres-data:

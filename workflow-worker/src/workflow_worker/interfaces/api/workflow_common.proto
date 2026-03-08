@@ -1,0 +1,28 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+package workflow.common;
+
+// JobInfo represents a workflow job. Note: distinct from Task — multiple JobInfos may map to one Task.
+message JobInfo {
+  uint64 id = 1;
+  uint64 task_id = 2;
+  string task_json = 3;
+}
+
+message JobEvent {
+  uint64 id = 1;
+  uint64 job_id = 2;
+  uint64 task_id = 3;
+  string name = 4;
+  string algo = 5;
+  google.protobuf.Timestamp created_at = 100;
+}
+
+message JobReport {
+  uint64 id = 4;
+  string name = 5;
+  string valueJson = 6;
+  string message = 7;
+  google.protobuf.Timestamp created_at = 100;
+}

@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+import "workflow_common.proto";
+
+package workflow.manager;
+
+
+message GetJobRequest {
+  string worker_id = 1;
+}
+
+message GetJobResponse {
+  common.JobInfo job_info = 1;
+}
+
+
+message CreateReportRequest {
+  uint64 job_id = 1;
+  uint64 task_id = 2;
+  common.JobReport job_report = 3;
+}
+
+message CreateReportResponse {
+  uint64 job_id = 1;
+  uint64 task_id = 2;
+  common.JobReport job_report = 3;
+}
+
+message HeartbeatRequest {
+  string worker_id = 1;
+  repeated uint64 running_job_ids = 2;
+}
+
+message HeartbeatResponse {
+  string worker_id = 1;
+}
+
+
+// JobManagerService exposes interfaces for fetching jobs and submitting results.
+service JobManagerService
+{
+  rpc GetJob(GetJobRequest) returns (GetJobResponse) {}
+  rpc CreateReport(CreateReportRequest) returns (CreateReportResponse) {}
+  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse) {}
+}

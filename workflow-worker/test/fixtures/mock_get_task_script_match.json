@@ -1,0 +1,51 @@
+{
+  "ResponseMetadata": {
+    "RequestId": "",
+    "Action": "",
+    "Version": "",
+    "Service": "",
+    "Region": ""
+  },
+  "Result": {
+    "Id": 122,
+    "Name": "投资风口飘忽不定，如何“捕捉基会”-07",
+    "Scenario": {
+      "Id": 40,
+      "Name": "公域基金直播测试场景",
+      "RuleSections": [
+        {
+          "Id": 57,
+          "Name": "全文脚本符合度比对",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 1,
+          "RulePoints": [
+            {
+              "Id": 57,
+              "Name": "全文脚本符合度比对",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "script",
+              "ScriptCfg": {
+                "RequireJobs": [
+                  "script_match"
+                ],
+                "Script": "去解决这个长期的钱，例如退休后的养老资金。这部分钱它的持有期是会非常长的。就像我们刚才提到的，像90后左右的群体，距离退休其实还有很长时间。\n所以，养老类型的基金，基金经理在对这个产品做定位的时候呢，也是要看这么长、做这么长。当然呢，不可避免一个养老基金的经理可能很难管一个产品20年30年，所以监管方面也是会比较机动。有的养老基金，它会设一年的持有期；有的会设三年，有的会设5年的持有期。这也是尽可能是帮助大家来去做长，但同时也考虑到投资人可能会因为基金经理的变动想更换产品。\n我们说养老基金是一类“看长做长”的产品，它还会再分成两类：目标风险型、目标日期型。\n那么普通养老基金呢，它其实跟这个会有一些差别。主要是，他里面是没有目标日期这种策略的，。选机跟踪和这个调查会比这个这个我看咱们的产品列表里面啊，有这个链接2，他跟这刚才我们讲的招商合约稳健养老它就有所不同。它叫华夏养老2040，那能不能张明老师给大家介绍一下华夏养老的这支基金它有什么区别呢？\n跟上一支好的好的，那华夏养老2040三年这个产品呢，其实大家从名字里面很容易看到，它里面其实是有一个2040这个目标日期的。",
+                "ScriptThreshold": 0.6
+              },
+              "SameFrameCfg": null,
+              "BanwordCfg": null,
+              "SubtitleCfg": null,
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        }
+      ]
+    },
+    "Media": {
+      "Path": "/home/zyb/chenjie/117.mp4",
+      "MediaURL": ""
+    }
+  }
+}

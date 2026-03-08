@@ -1,0 +1,105 @@
+{
+  "ResponseMetadata": {
+    "RequestId": "",
+    "Action": "",
+    "Version": "",
+    "Service": "",
+    "Region": ""
+  },
+  "Result": {
+    "Id": 122,
+    "Name": "投资风口飘忽不定，如何“捕捉基会”-07",
+    "Scenario": {
+      "Id": 40,
+      "Name": "公域基金直播测试场景",
+      "RuleSections": [
+        {
+          "Id": 53,
+          "Name": "产品合规展示-基金2-代码、名称、业绩",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 4,
+          "RulePoints": [
+            {
+              "Id": 53,
+              "Name": "产品合规展示-基金2-代码、名称、业绩",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "subtitle",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": null,
+              "SubtitleCfg": {
+                "RequireJobs": [
+                  "subtitle_match"
+                ],
+                "Fps": 1,
+                "Texts": [
+                  {
+                    "TextIndex": 1,
+                    "Text": "华夏养老2040三年混合A FOF 平衡级",
+                    "Threshold": 0.6,
+                    "TimePatchs": [],
+                    "TimeRangeType": 0,
+                    "EmergencyType": 0,
+                    "TextType": 0,
+                    "MinTextNumber": 10,
+                    "CumulativeThreshold": 0.4,
+                    "ContinuousAppearanceTimes": 4
+                  }
+                ]
+              },
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        },
+        {
+          "Id": 53,
+          "Name": "产品合规展示-基金2-代码、名称、业绩",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 4,
+          "RulePoints": [
+            {
+              "Id": 53,
+              "Name": "产品合规展示-基金2-代码、名称、业绩",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "subtitle",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": null,
+              "SubtitleCfg": {
+                "RequireJobs": [
+                  "subtitle_match"
+                ],
+                "Fps": 1,
+                "Texts": [
+                  {
+                    "TextIndex": 1,
+                    "Text": "华夏养老2040三年混合A FOF 平衡级",
+                    "Threshold": 0.6,
+                    "TimePatchs": [],
+                    "TimeRangeType": 0,
+                    "EmergencyType": 0,
+                    "TextType": 0,
+                    "MinTextNumber": 10,
+                    "CumulativeThreshold": 0.4,
+                    "ContinuousAppearanceTimes": 4
+                  }
+                ]
+              },
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        }
+      ]
+    },
+    "Media": {
+      "Path": "/home/zyb/chenjie/117.mp4",
+      "MediaURL": ""
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "ResponseMetadata": {
+    "RequestId": "",
+    "Action": "",
+    "Version": "",
+    "Service": "",
+    "Region": ""
+  },
+  "Result": {
+    "Id": 122,
+    "Name": "投资风口飘忽不定，如何“捕捉基会”-07",
+    "Scenario": {
+      "Id": 40,
+      "Name": "公域基金直播测试场景",
+      "RuleSections": [
+        {
+          "Id": 50,
+          "Name": "敏感词-基金名称和代码",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 2,
+          "RulePoints": [
+            {
+              "Id": 50,
+              "Name": "敏感词-基金名称和代码",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "banword",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": {
+                "RequireJobs": [
+                  "banword_detection"
+                ],
+                "Banwords": ["000001", "华夏养老"],
+                "RequiredWords": null,
+                "BanwordGroupId": 0
+              },
+              "SubtitleCfg": null,
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        },
+        {
+          "Id": 49,
+          "Name": "敏感词-上市公司名称和代码",
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Type": 2,
+          "RulePoints": [
+            {
+              "Id": 49,
+              "Name": "敏感词-上市公司名称和代码",
+              "BizCategory": 0,
+              "TemporalScopeCategory": 0,
+              "Category": "banword",
+              "ScriptCfg": null,
+              "SameFrameCfg": null,
+              "BanwordCfg": {
+                "RequireJobs": [
+                  "banword_detection"
+                ],
+                "Banwords": ["ST 正邦"],
+                "RequiredWords": null,
+                "BanwordGroupId": 0
+              },
+              "SubtitleCfg": null,
+              "VerificationCfgs": null,
+              "DocumentCfgs": null
+            }
+          ]
+        }
+
+      ]
+    },
+    "Media": {
+      "Path": "/home/zyb/chenjie/117.mp4",
+      "MediaURL": ""
+    }
+  }
+}

@@ -1,0 +1,394 @@
+{
+  "Name": "录音15",
+  "Id": 172,
+  "Media": {
+    "Path": "http://headless-vop-videoarch-minio.default.svc.cluster.local:9000/videoinspectdata/account-2000000005/170.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230810%2Fcn-north-1%2Fs3%2Faws4_request&X-Amz-Date=20230810T073506Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=981ffed9bfdab108f708853d17860a8401f3e4cb7ec53a2dd0768d93dacdeeb0",
+    "MediaUrl": "http://headless-vop-videoarch-minio.default.svc.cluster.local:9000/videoinspectdata/account-2000000005/170.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230810%2Fcn-north-1%2Fs3%2Faws4_request&X-Amz-Date=20230810T073506Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=981ffed9bfdab108f708853d17860a8401f3e4cb7ec53a2dd0768d93dacdeeb0",
+    "Meta": {
+      "Resolution": "854x480",
+      "Size": "86047956",
+      "Duration": 3274880.0,
+      "Bitrate": "102813.0",
+      "Fps": "25.0",
+      "Width": 854,
+      "Height": 480,
+      "FormatName": "mov,mp4,m4a,3gp,3g2,mj2"
+    }
+  },
+  "RuleSectionReports": [
+    {
+      "Name": "空规则",
+      "Id": 95,
+      "RulePointReports": [
+        {
+          "Name": "空规则",
+          "Id": 95,
+          "BizCategory": 0,
+          "TemporalScopeCategory": 0,
+          "Category": "subtitle",
+          "ScriptMatchReport": null,
+          "BanwordDetectionReport": null,
+          "HumanTrackingReport": null,
+          "SubtitleMatchReport": {
+            "Status": "failed",
+            "Reasons": [
+              "字幕匹配识别结果未满足要求"
+            ],
+            "Result": [
+              {
+                "SubtitleResult": {
+                  "Id": 1,
+                  "RuleId": 95,
+                  "RecogTimePatchs": [],
+                  "TimeRangeType": 0,
+                  "TextType": 0,
+                  "EmergencyType": 0,
+                  "Text": "录音",
+                  "RecogThreshold": 0.8,
+                  "MinTextNumber": 10,
+                  "ContinuousAppearanceTimes": 10,
+                  "TotalContinuousAppearanceFrame": 0,
+                  "SimilarityMapper": null,
+                  "MissFrameTimes": [
+                    0.0,
+                    5000.0,
+                    3265000.0,
+                    3270000.0
+                  ],
+                  "TotalFramesCount": 655,
+                  "Mask": null,
+                  "Similaritys": [],
+                  "XMin": 10000000000.0,
+                  "YMin": 10000000000.0,
+                  "XMax": -1,
+                  "YMax": -1
+                },
+                "Reasons": [
+                  "没有完整展示",
+                  "视频中未出现符合持续时长的片段"
+                ]
+              }
+            ]
+          },
+          "ScriptCfg": null,
+          "VerificationCfgs": null,
+          "DocumentCfgs": null,
+          "SameFrameCfg": null,
+          "BanwordCfg": null,
+          "SubtitleCfg": {
+            "RequireJobs": [
+              "subtitle_match"
+            ],
+            "Fps": 0.2,
+            "Texts": [
+              {
+                "TextIndex": 1,
+                "Text": "录音",
+                "Threshold": 0.8,
+                "TimePatchs": [],
+                "TimeRangeType": 0,
+                "EmergencyType": 0,
+                "TextType": 0,
+                "MinTextNumber": 10,
+                "CumulativeThreshold": 0.4,
+                "ContinuousAppearanceTimes": 10
+              }
+            ]
+          },
+          "Reasons": [
+            "字幕匹配识别结果未满足要求"
+          ]
+        }
+      ],
+      "Status": "failed",
+      "CheckedStatus": "failed",
+      "Reasons": [
+        "字幕匹配识别结果未满足要求"
+      ]
+    }
+  ],
+  "Status": "failed",
+  "CheckedStatus": "failed",
+  "Reasons": [
+    [
+      "字幕匹配识别结果未满足要求"
+    ]
+  ],
+  "AiResult": {
+    "Auc": {
+      "Dialogue": {
+        "Text": "有可供分配收益，可能也就不进行分红安排。所以具体还是要看其他底层项目啊啊，还不是强制的是吧？对他，他就是说有可供分为收益，它是强制的，要把这个分收益的多少按照比例去给客户进行一个分红安排，但是如果他如果没有可供分配收益的话，就不进行分红安排了。所以这个具体还是要看他底层项目的一个情况啊，那经理还看你们那个公司，整个这个公司联手的话，整个全国这几个底层就是他底层的这一个特许经营权的这个项目，他是否有这个我们挣钱的，我才跟你谈是这样，噢，噢，那这个瑞士基金还还得那个还还还不能还得小心点，买的时候还真是得小心点，这个是因为也是您的这一个钱吧，这个您还是要再投资。对呀，我我我，我实际上就是真实的，就是不想操心的，我就想把这个扔给基金公司去做，能给基金公司说，我就看瑞士吧，有一个国家有个强势分红，那这呢也得是看有没有效益啊，有效益才分。对，所以这个也是看，那还是买那种吧，再买你们那个还是得关注你们那个新公司发的那些基金吧，那个好像是比这个风，我倒看着比这个要是买好了的话，就是整个市场好的话，那个基金好像是应该是你就耐心持有的话，应该能赚钱，就你们富国基金就是这这一种，因为包括如果您持有时间比较长的一些老基金产品的话，可能它就是是有一定盈利的内置这种方式还是要看基金经理他实际对于基金产品的一个操作上面，是否能让他这个基金产品的净值上涨，因为我们旗下的这个产品都是不保不保收益的，那包括您刚刚一直在沟通的这个瑞士产品的话，它也是一个二三中风险的一个进行产品，那别的产品比办这种呃，混合类的或者权益类的可能也是二三或者是二四的中高风险的这一些产品的这种风险等级，您在了解其他产品，您在关注的时候也可以先看一下它的这种风险等级，包括它投资的一个范围，然后它的这种购买这个基金经理，他管理的这个产品，它投资风格上面是否符合您的这个，呃，投资这个想法，然后您再去做这个。对呀，因为投的话就不操心嘛，最最起码不能赔钱。对，赚钱不赚钱的话，那就没有这个把握的话，就应该仔细的再看一看。还有一个问题，实际上这个就有点题外话了，也是关于基金的事，就像我们老百姓买基金吧，有的时候有的时候就是好比说是前几年吧，是前几年啊，咱不说现在就是那基金经理吧，不都是明星基金经理评级吗？你买他的基金匿名可赚钱，可赚钱了，等到第二年他白取目的明星经理，大家老百姓吧，都上他买他的基金，那个基金他百分之百的亏钱，我不知道啥道理，您说的这种就是明星经理，还是就是炒作的明星经理不是你们复工公司的，能复工公司不是啊，不是，就是说这种情况，我跟您说一下，就是他实际经理在募集基金产品的时候，呃，后续他的这种操作上面那是盈利还是亏损，其实还是主要看呃，结合基金经理这种投资策略，包括其实可能也会受到市场这种整体的一种影响，对，他可能会做的好，或者做的不好，这种情况都是有可能的。对，所以就是您可以这么说，可以这么说我不太知道啊，我就是这个事，也就是这个怎么说呢，就是概率吧，就比如说嗯，前几年假如有，咱就说有10个基金经理，10个经理里边就有8个都是星级经理，然后他那个基金吧，可能是盈利的60%到71块钱，可能找到一块61块起是吧，第二年呢，他们那个就是说这个基金公司呢，因为他还得啊加兼在扩那个扩扩展业务吧，扩展业务，然后代目及真不急的话，那像有的那个明星经理，那大家去年，然后比如都那么认可他，那今年的话那还买他吧，把钱给他，肯定是大老百姓放心呢，他会操作，结果他那只基金吧，就肯定是哎呀妈呀，给他爹的，你就别指着他那啥，就是说人就说了，你买买基金就是老百姓就是从概率上统计买基金的话，如果那年他是那个明星经理的话，他在下下发第二支就是募集的话，就不能买他的了，买他的他肯定他那支就不赚钱，那你看这这那就不是一个事了，那你看这基金经理，假如这十个十个当中8个，第二年这个星级经理不去买他，他都不涨啊，大家都是一个市场啊，完了那个不是星级的，那反倒涨了，我不知道这个是怎么个逻辑，你们这是你们基金公司是创牌子的事，我是我是这么理解的，这个还是要看实际，就是看这个基金经理的一个投资的这种策略上面，包括它的风格，以及它做的这个产品，如果是有主题或者没有主题的，它对应的这种主要投资一个方向上面是否呃有这样的一个市场机会，那包括基金经理的操作上面，他是否能把这个经营产品定制做好，那这个其实有多方因素影响的是是那样。嗯，那现在还有他业务上，我现在还真没有了。没有的话我就重点我再琢磨琢磨，再考虑考虑，就是就是关于你们这个手上水务这个我看是买还是不买，买多少就是买的话我考虑考虑，谢谢你啊，但是我确实是你给我上了一课，哈哈哈，谢谢你啊，谢谢你老师啊。后续有任何的问题也可以再致电和我们做沟通的当下如果没有其他问题，麻烦根据语音提示我浮躁的评价，谢谢您。唉，非常满意。好，谢谢。嗯。",
+        "Utterances": [
+          {
+            "Words": [
+              {
+                "Text": "后",
+                "StartTime": 3265950,
+                "EndTime": 3266110
+              },
+              {
+                "Text": "续",
+                "StartTime": 3266110,
+                "EndTime": 3266230
+              },
+              {
+                "Text": "有",
+                "StartTime": 3266230,
+                "EndTime": 3266310
+              },
+              {
+                "Text": "任",
+                "StartTime": 3266310,
+                "EndTime": 3266430
+              },
+              {
+                "Text": "何",
+                "StartTime": 3266430,
+                "EndTime": 3266550
+              },
+              {
+                "Text": "的",
+                "StartTime": 3266550,
+                "EndTime": 3266670
+              },
+              {
+                "Text": "问",
+                "StartTime": 3266670,
+                "EndTime": 3266790
+              },
+              {
+                "Text": "题",
+                "StartTime": 3266790,
+                "EndTime": 3266870
+              },
+              {
+                "Text": "也",
+                "StartTime": 3266870,
+                "EndTime": 3266950
+              },
+              {
+                "Text": "可",
+                "StartTime": 3266950,
+                "EndTime": 3267030
+              },
+              {
+                "Text": "以",
+                "StartTime": 3267030,
+                "EndTime": 3267110
+              },
+              {
+                "Text": "再",
+                "StartTime": 3267110,
+                "EndTime": 3267230
+              },
+              {
+                "Text": "致",
+                "StartTime": 3267230,
+                "EndTime": 3267390
+              },
+              {
+                "Text": "电",
+                "StartTime": 3267390,
+                "EndTime": 3267510
+              },
+              {
+                "Text": "和",
+                "StartTime": 3267510,
+                "EndTime": 3267590
+              },
+              {
+                "Text": "我",
+                "StartTime": 3267590,
+                "EndTime": 3267670
+              },
+              {
+                "Text": "们",
+                "StartTime": 3267670,
+                "EndTime": 3267750
+              },
+              {
+                "Text": "做",
+                "StartTime": 3267750,
+                "EndTime": 3267870
+              },
+              {
+                "Text": "沟",
+                "StartTime": 3267870,
+                "EndTime": 3267990
+              },
+              {
+                "Text": "通",
+                "StartTime": 3267990,
+                "EndTime": 3268110
+              },
+              {
+                "Text": "的",
+                "StartTime": 3268110,
+                "EndTime": 3268230
+              },
+              {
+                "Text": "当",
+                "StartTime": 3268230,
+                "EndTime": 3268350
+              },
+              {
+                "Text": "下",
+                "StartTime": 3268350,
+                "EndTime": 3268550
+              },
+              {
+                "Text": "如",
+                "StartTime": 3268550,
+                "EndTime": 3268710
+              },
+              {
+                "Text": "果",
+                "StartTime": 3268710,
+                "EndTime": 3268790
+              },
+              {
+                "Text": "没",
+                "StartTime": 3268790,
+                "EndTime": 3268870
+              },
+              {
+                "Text": "有",
+                "StartTime": 3268870,
+                "EndTime": 3268950
+              },
+              {
+                "Text": "其",
+                "StartTime": 3268950,
+                "EndTime": 3269030
+              },
+              {
+                "Text": "他",
+                "StartTime": 3269030,
+                "EndTime": 3269150
+              },
+              {
+                "Text": "问",
+                "StartTime": 3269150,
+                "EndTime": 3269270
+              },
+              {
+                "Text": "题",
+                "StartTime": 3269270,
+                "EndTime": 3269390
+              },
+              {
+                "Text": "，",
+                "StartTime": 3269390,
+                "EndTime": 3269390
+              },
+              {
+                "Text": "麻",
+                "StartTime": 3269390,
+                "EndTime": 3269510
+              },
+              {
+                "Text": "烦",
+                "StartTime": 3269510,
+                "EndTime": 3269630
+              },
+              {
+                "Text": "根",
+                "StartTime": 3269630,
+                "EndTime": 3269790
+              },
+              {
+                "Text": "据",
+                "StartTime": 3269790,
+                "EndTime": 3269910
+              },
+              {
+                "Text": "语",
+                "StartTime": 3269910,
+                "EndTime": 3270030
+              },
+              {
+                "Text": "音",
+                "StartTime": 3270030,
+                "EndTime": 3270150
+              },
+              {
+                "Text": "提",
+                "StartTime": 3270150,
+                "EndTime": 3270230
+              },
+              {
+                "Text": "示",
+                "StartTime": 3270230,
+                "EndTime": 3270390
+              },
+              {
+                "Text": "我",
+                "StartTime": 3270390,
+                "EndTime": 3270590
+              },
+              {
+                "Text": "浮",
+                "StartTime": 3270590,
+                "EndTime": 3270750
+              },
+              {
+                "Text": "躁",
+                "StartTime": 3270750,
+                "EndTime": 3270870
+              },
+              {
+                "Text": "的",
+                "StartTime": 3270870,
+                "EndTime": 3270990
+              },
+              {
+                "Text": "评",
+                "StartTime": 3270990,
+                "EndTime": 3271150
+              },
+              {
+                "Text": "价",
+                "StartTime": 3271150,
+                "EndTime": 3271350
+              },
+              {
+                "Text": "，",
+                "StartTime": 3271350,
+                "EndTime": 3271350
+              },
+              {
+                "Text": "谢",
+                "StartTime": 3271350,
+                "EndTime": 3271550
+              },
+              {
+                "Text": "谢",
+                "StartTime": 3271550,
+                "EndTime": 3271670
+              },
+              {
+                "Text": "您",
+                "StartTime": 3271670,
+                "EndTime": 3271830
+              },
+              {
+                "Text": "。",
+                "StartTime": 3271830,
+                "EndTime": 3271670
+              }
+            ],
+            "Text": "后续有任何的问题也可以再致电和我们做沟通的当下如果没有其他问题，麻烦根据语音提示我浮躁的评价，谢谢您。",
+            "Speaker": "",
+            "Gender": "",
+            "StartTime": 3265950,
+            "EndTime": 3271830
+          }
+        ],
+        "NumSpeaker": -1
+      },
+      "RequestId": null
+    },
+    "Subtitle": [],
+    "SubtitleContinuousAppear": []
+  }
+}

@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+import "base.proto";
+
+package face_process;
+
+message ServiceReq {
+    string req_name = 1;
+    repeated bytes frame_list = 2;
+    repeated string req_type_list = 3;
+    repeated int32 keypoint_list = 4;
+    double cluster_thres = 5;
+    int32 get_main_mask = 6;
+    int32 get_bbox = 7;
+    int32 do_guided_filter = 8;
+    repeated int32 bbox = 9;
+    base.Base base = 10;
+}
+
+message VecAttribute {
+    string attr_name = 1;
+    map<string, double> details = 2;
+}
+
+message ValAttribute {
+    string attr_name = 1;
+    double value = 2;
+}
+
+message ExtraKeypoint {
+    string keypoint_name = 1;
+    repeated int32 keypoint = 2;
+}
+
+message ObjInfo {
+    repeated int32 bbox = 1;
+    repeated int32 keypoint = 2;
+    bytes feature_pb = 3;
+    int32 face_id = 4;
+    repeated ValAttribute val_attributes = 5;
+    repeated VecAttribute vec_attributes = 6;
+    repeated ExtraKeypoint extra_keypoints = 7;
+}
+
+message SegmentInfo {
+    string name = 1;
+    bytes mask = 2;
+    double sum_val = 3;
+    repeated int32 bbox = 4;
+}
+
+message FrameInfo {
+    repeated ObjInfo obj_info_list = 1;
+    int32 img_height = 2;
+    int32 img_width = 3;
+    repeated SegmentInfo seg_info_list = 4;
+}
+
+message ServiceRsp {
+    repeated FrameInfo frame_info_list = 1;
+    base.BaseResp base_resp = 2;
+}
+
+message SupportTypeRsp {
+    repeated string support_type_list = 1;
+    base.BaseResp base_resp = 2;
+}
+
+message FaceProcessReq {
+    string image_name = 1;
+    bytes image_data = 2;
+    string caller = 3;
+}
+
+message FaceInfo {
+    repeated int32 bbox = 1;
+    repeated int32 keypoint = 2;
+    bytes feature_pb = 3;
+    double age = 4;
+    double gender_score = 5;
+    int32 face_id = 6;
+    double attractive_score = 7;
+}
+
+message FaceProcessRsp {
+    string status = 1;
+    repeated FaceInfo face_infos = 2;
+}
+
+service FaceProcess {
+    rpc Predict(ServiceReq) returns (ServiceRsp);
+    rpc GetSupportType(ServiceReq) returns (SupportTypeRsp);
+}

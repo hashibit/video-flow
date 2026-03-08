@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "workflow_common.proto";
+
+package workflow.worker;
+
+
+message PollEventsRequest {
+  common.JobInfo job_info = 1;
+  int64 last_event_id = 2;
+}
+
+message PollEventsResponse {
+  repeated common.JobEvent events = 1;
+}
+
+message StopRunningJobResponse {
+  int64 job_id = 1;
+}
+
+// JobWorkerService only exposes a stop interface, not a start interface.
+// Workers proactively pull tasks from the manager.
+service JobWorkerService
+{
+  rpc StopRunningJob(common.JobInfo) returns (StopRunningJobResponse) {}
+  rpc PollEvents(PollEventsRequest) returns (PollEventsResponse) {}
+}
