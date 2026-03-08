@@ -4,7 +4,7 @@ from workflow_worker.domain.entities.tasks.person_tracking.report import (
 )
 from workflow_worker.domain.entities.rule import RulePoint
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.base.reporter import Reporter
+from workflow_worker.applications.modules.base.reporter import Reporter
 
 
 class PersonTrackingReporter(Reporter):

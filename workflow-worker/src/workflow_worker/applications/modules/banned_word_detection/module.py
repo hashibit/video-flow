@@ -1,5 +1,5 @@
 from workflow_worker.services.ai.auc.service import AUCService
-from workflow_worker.applications.jobs.model import JobName
+from workflow_worker.applications.modules.model import JobName
 
 from workflow_worker.domain.entities.tasks.banned_word_detection.config import (
     BannedWordDetectionJobCfg,
@@ -12,11 +12,11 @@ from workflow_worker.domain.entities.tasks.banned_word_detection.result import (
 )
 from workflow_worker.domain.entities.service.auc import AUCServiceResult
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.module import ModuleBase
+from workflow_worker.applications.modules.module import ModuleBase
 from workflow_worker.applications.workflows.task_context import TaskContext
 
 
-class BannedWordDetectionJob(ModuleBase):
+class BannedWordDetectionModule(ModuleBase):
     def __init__(self, task) -> None:
         super().__init__(task)
         self.required_jobs = ["script_match"]

@@ -5,8 +5,8 @@ from datetime import datetime
 from workflow_worker.interfaces.api.media_service_pb2 import NotifyStatus
 from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.module import ModuleBase
-from workflow_worker.applications.jobs.model import TaskResult, TaskResultCategory
+from workflow_worker.applications.modules.module import ModuleBase
+from workflow_worker.applications.modules.model import TaskResult, TaskResultCategory
 from workflow_worker.interfaces.events.event_factory import JobEvent
 
 logger = get_logger(__name__)

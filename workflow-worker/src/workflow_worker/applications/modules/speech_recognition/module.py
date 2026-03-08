@@ -3,14 +3,14 @@ from workflow_worker.domain.entities.tasks.speech_recognition.result import (
 )
 from workflow_worker.domain.entities.service.auc import AUCServiceResult
 from workflow_worker.services.ai.auc.service import AUCService
-from workflow_worker.applications.jobs.module import ModuleBase
-from workflow_worker.applications.jobs.model import JobName
+from workflow_worker.applications.modules.module import ModuleBase
+from workflow_worker.applications.modules.model import JobName
 from workflow_worker.infrastructure.media_stream.frame_channel import FrameChannel
 from workflow_worker.infrastructure.media_stream.s3_hook import S3Hook
 from workflow_worker.applications.workflows.task_context import TaskContext
 
 
-class SpeechRecognitionJob(ModuleBase):
+class SpeechRecognitionModule(ModuleBase):
     def __init__(self, task) -> None:
         super().__init__(task)
         self.required_jobs = ["script_matching"]

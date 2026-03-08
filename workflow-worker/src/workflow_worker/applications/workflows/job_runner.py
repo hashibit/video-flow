@@ -9,7 +9,7 @@ from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.domain.entities.report import Report
 from workflow_worker.domain.entities.task import Task
 from workflow_worker.shared.utils.common import pascal_case_to_snake_case
-from workflow_worker.applications.jobs.factory import (
+from workflow_worker.applications.modules.factory import (
     create_subtitle_matching_modules,
     create_person_tracking_modules,
     create_speech_recognition_modules,

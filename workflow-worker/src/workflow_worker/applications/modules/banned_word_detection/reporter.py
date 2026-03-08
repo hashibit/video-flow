@@ -2,7 +2,7 @@ from workflow_worker.domain.entities.tasks.banned_word_detection.report import B
 from workflow_worker.domain.entities.tasks.banned_word_detection.result import BannedWordDetectionJobResult
 from workflow_worker.domain.entities.rule import RulePoint
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.base.reporter import Reporter
+from workflow_worker.applications.modules.base.reporter import Reporter
 
 
 class BannedWordDetectionReporter(Reporter):

@@ -17,12 +17,12 @@ from workflow_worker.services.ai.auc.service import AUCService
 from workflow_worker.shared.utils.text import calc_text_similarity, lcs
 from difflib import Differ
 
-from workflow_worker.applications.jobs.module import ModuleBase
-from workflow_worker.applications.jobs.model import JobName
+from workflow_worker.applications.modules.module import ModuleBase
+from workflow_worker.applications.modules.model import JobName
 from workflow_worker.applications.workflows.task_context import TaskContext
 
 
-class ScriptMatchingJob(ModuleBase):
+class ScriptMatchingModule(ModuleBase):
     def __init__(self, task) -> None:
         super().__init__(task)
         self.required_jobs: list[str] = []

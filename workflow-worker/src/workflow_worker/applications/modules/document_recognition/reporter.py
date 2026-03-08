@@ -5,7 +5,7 @@ from workflow_worker.domain.entities.tasks.document_recognition.result import Do
 from workflow_worker.domain.entities.tasks.signature_recognition.result import SignatureRecognitionJobResult
 from workflow_worker.domain.entities.rule import RulePoint
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.base.reporter import Reporter
+from workflow_worker.applications.modules.base.reporter import Reporter
 
 
 class DocumentReporter(Reporter):

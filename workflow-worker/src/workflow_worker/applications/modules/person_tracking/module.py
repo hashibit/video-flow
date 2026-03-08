@@ -7,12 +7,12 @@ from workflow_worker.domain.entities.tasks.person_tracking.config import (
 from workflow_worker.domain.entities.tasks.person_tracking.result import PersonTrackingJobResult
 from workflow_worker.domain.entities.tasks.person_tracking.report import HumanTackReportResult
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.person_tracking.processor import PersonTrackingProcessor
+from workflow_worker.applications.modules.person_tracking.processor import PersonTrackingProcessor
 from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.services.ai.det.service import DetService
 from workflow_worker.services.ai.track.service import TrackService
-from workflow_worker.applications.jobs.module import ModuleBase
-from workflow_worker.applications.jobs.model import JobName
+from workflow_worker.applications.modules.module import ModuleBase
+from workflow_worker.applications.modules.model import JobName
 from workflow_worker.interfaces.events.event_factory import JobEvent
 from workflow_worker.infrastructure.media_stream.utils import gather_batch_frames_from_generator
 from workflow_worker.applications.workflows.task_context import TaskContext
@@ -20,7 +20,7 @@ from workflow_worker.applications.workflows.task_context import TaskContext
 logger = get_logger(__name__)
 
 
-class PersonTrackingJob(ModuleBase):
+class PersonTrackingModule(ModuleBase):
     def __init__(self, task: Task) -> None:
         super().__init__(task)
 

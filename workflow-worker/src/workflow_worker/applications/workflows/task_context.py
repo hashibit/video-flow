@@ -10,9 +10,9 @@ from workflow_worker.domain.entities.tasks.subtitle_matching.result import Subti
 from workflow_worker.domain.entities.report import Report
 from workflow_worker.domain.entities.service.auc import AUCServiceResult
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.data_loader import DataLoader  # pyright: ignore[reportImportCycles]
-from workflow_worker.applications.jobs.model import JobName
-from workflow_worker.applications.jobs.report.job import ReportJob
+from workflow_worker.applications.modules.data_loader import DataLoader  # pyright: ignore[reportImportCycles]
+from workflow_worker.applications.modules.model import JobName
+from workflow_worker.applications.modules.report.module import ReportModule
 from workflow_worker.interfaces.events.event_factory import EventCollector
 from workflow_worker.infrastructure.media_stream.frame_channel import FrameChannel
 
@@ -74,7 +74,7 @@ class TaskContext(object):
         Returns:
             Report: The generated job report
         """
-        report_job = ReportJob()
+        report_job = ReportModule()
         job_reporters = report_job.parse_task(self.task)
 
         job_results = {}

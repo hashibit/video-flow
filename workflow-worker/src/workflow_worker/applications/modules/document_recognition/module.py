@@ -13,8 +13,8 @@ from workflow_worker.domain.entities.tasks.document_recognition.result import (
 from workflow_worker.domain.entities.rule import RulePoint
 from workflow_worker.domain.entities.service.ocr import OCRInfoType
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.common.ocr.ocr_id_generator import OCRIDGenerator
-from workflow_worker.applications.jobs.common.ocr.ocr_info_manager import DocOCRInfoManager
+from workflow_worker.applications.modules.common.ocr.ocr_id_generator import OCRIDGenerator
+from workflow_worker.applications.modules.common.ocr.ocr_info_manager import DocOCRInfoManager
 from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.services.ai.ocr import DocumentOCRService
 from workflow_worker.shared.utils.frame import (
@@ -30,7 +30,7 @@ from workflow_worker.applications.workflows.task_context import TaskContext
 logger = get_logger(__name__)
 
 
-class DocumentRecognitionJob:
+class DocumentRecognitionModule:
     """Document quality inspection task"""
 
     def __init__(self) -> None:

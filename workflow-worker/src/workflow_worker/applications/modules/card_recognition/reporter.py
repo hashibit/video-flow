@@ -4,7 +4,7 @@ from workflow_worker.domain.entities.tasks.card_recognition.report import CardRe
 from workflow_worker.domain.entities.tasks.card_recognition.result import CardRecognitionJobResult
 from workflow_worker.domain.entities.rule import RulePoint
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.base.reporter import Reporter
+from workflow_worker.applications.modules.base.reporter import Reporter
 
 
 class CardReporter(Reporter):

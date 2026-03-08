@@ -6,15 +6,15 @@ from workflow_worker.domain.entities.report import (
     RuleSectionReport,
 )
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.base.reporter import Reporter
-from workflow_worker.applications.jobs.banned_word_detection.reporter import BannedWordDetectionReporter
-from workflow_worker.applications.jobs.person_tracking.reporter import PersonTrackingReporter
-from workflow_worker.applications.jobs.model import JobName
-from workflow_worker.applications.jobs.subtitle_matching.reporter import SubtitleMatchingReporter
-from workflow_worker.applications.jobs.script_matching.reporter import ScriptMatchingReporter
+from workflow_worker.applications.modules.base.reporter import Reporter
+from workflow_worker.applications.modules.banned_word_detection.reporter import BannedWordDetectionReporter
+from workflow_worker.applications.modules.person_tracking.reporter import PersonTrackingReporter
+from workflow_worker.applications.modules.model import JobName
+from workflow_worker.applications.modules.subtitle_matching.reporter import SubtitleMatchingReporter
+from workflow_worker.applications.modules.script_matching.reporter import ScriptMatchingReporter
 
 
-class ReportJob:
+class ReportModule:
     def parse_task(self, task: Task) -> dict[str, Reporter]:
         """Parse task and create reporters.
 

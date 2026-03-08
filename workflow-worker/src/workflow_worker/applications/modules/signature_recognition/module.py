@@ -13,8 +13,8 @@ from workflow_worker.domain.entities.tasks.signature_recognition.result import (
 from workflow_worker.domain.entities.rule import RulePoint, SignatureInfo
 from workflow_worker.domain.entities.service.ocr import OCRInfoType
 from workflow_worker.domain.entities.task import Participant, Task
-from workflow_worker.applications.jobs.common.ocr.ocr_id_generator import OCRIDGenerator
-from workflow_worker.applications.jobs.common.ocr.ocr_info_manager import OCRInfoManager
+from workflow_worker.applications.modules.common.ocr.ocr_id_generator import OCRIDGenerator
+from workflow_worker.applications.modules.common.ocr.ocr_info_manager import OCRInfoManager
 from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.services.ai.ocr import HandwritingOCRService
 from workflow_worker.shared.utils.frame import (
@@ -24,8 +24,8 @@ from workflow_worker.shared.utils.frame import (
     get_storage_url,
 )
 from workflow_worker.shared.utils.visualization import draw_box, draw_polygon
-from workflow_worker.applications.jobs.module import ModuleBase
-from workflow_worker.applications.jobs.model import JobName
+from workflow_worker.applications.modules.module import ModuleBase
+from workflow_worker.applications.modules.model import JobName
 from workflow_worker.infrastructure.media_stream.utils import gather_batch_frames_from_generator
 from workflow_worker.infrastructure.media_stream.frame_channel import FrameChannel
 from workflow_worker.applications.workflows.task_context import TaskContext
@@ -33,7 +33,7 @@ from workflow_worker.applications.workflows.task_context import TaskContext
 logger = get_logger(__name__)
 
 
-class SignatureRecognitionJob(ModuleBase):
+class SignatureRecognitionModule(ModuleBase):
     def __init__(self, task) -> None:
         super().__init__(task)
         self.required_jobs: list[Any] = []

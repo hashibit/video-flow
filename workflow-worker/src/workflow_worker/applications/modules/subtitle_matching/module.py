@@ -22,16 +22,16 @@ from workflow_worker.domain.entities.tasks.subtitle_matching.result import (
 )
 from workflow_worker.domain.entities.service.ocr import OCRServiceResult, TextBlock
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.subtitle_matching.diff import diff_match_patch
+from workflow_worker.applications.modules.subtitle_matching.diff import diff_match_patch
 from workflow_worker.services.ai.ocr import GeneralOCRService
 from workflow_worker.shared.utils.env import get_env
-from workflow_worker.applications.jobs.module import ModuleBase
-from workflow_worker.applications.jobs.model import JobName
+from workflow_worker.applications.modules.module import ModuleBase
+from workflow_worker.applications.modules.model import JobName
 from workflow_worker.infrastructure.media_stream.s3_hook import S3Hook
 from workflow_worker.applications.workflows.task_context import TaskContext
 
 
-class SubtitleMatchingJob(ModuleBase):
+class SubtitleMatchingModule(ModuleBase):
     def __init__(self, task: Task) -> None:
         super().__init__(task)
         self.required_jobs: list[Any] = []

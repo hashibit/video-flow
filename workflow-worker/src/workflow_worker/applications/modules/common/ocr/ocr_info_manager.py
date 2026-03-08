@@ -13,7 +13,7 @@ from workflow_worker.domain.entities.service.ocr import (
     OCRInfoType,
     OCRServiceResult,
 )
-from workflow_worker.applications.jobs.common.ocr.ocr_id_generator import OCRIDChecker, OCRIDGenerator
+from workflow_worker.applications.modules.common.ocr.ocr_id_generator import OCRIDChecker, OCRIDGenerator
 from workflow_worker.shared.utils.image_calculator import calc_box_area, calc_text_similarity
 
 

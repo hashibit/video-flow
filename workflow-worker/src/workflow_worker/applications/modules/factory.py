@@ -2,14 +2,14 @@ import functools
 from typing import Any
 
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.banned_word_detection.job import BannedWordDetectionJob
-from workflow_worker.applications.jobs.card_recognition.job import CardRecognitionJob
-from workflow_worker.applications.jobs.person_tracking.job import PersonTrackingJob
-from workflow_worker.applications.jobs.model import JobName
-from workflow_worker.applications.jobs.script_matching.job import ScriptMatchingJob
-from workflow_worker.applications.jobs.signature_recognition.job import SignatureRecognitionJob
-from workflow_worker.applications.jobs.speech_recognition.job import SpeechRecognitionJob
-from workflow_worker.applications.jobs.subtitle_matching.job import SubtitleMatchingJob
+from workflow_worker.applications.modules.banned_word_detection.module import BannedWordDetectionModule
+from workflow_worker.applications.modules.card_recognition.module import CardRecognitionModule
+from workflow_worker.applications.modules.person_tracking.module import PersonTrackingModule
+from workflow_worker.applications.modules.model import JobName
+from workflow_worker.applications.modules.script_matching.module import ScriptMatchingModule
+from workflow_worker.applications.modules.signature_recognition.module import SignatureRecognitionModule
+from workflow_worker.applications.modules.speech_recognition.module import SpeechRecognitionModule
+from workflow_worker.applications.modules.subtitle_matching.module import SubtitleMatchingModule
 from workflow_worker.interfaces.events.event_factory import event_factory
 from workflow_worker.infrastructure.media_stream.stream_factory import stream_factory
 from workflow_worker.applications.workflows.task_context import TaskContext
@@ -24,15 +24,15 @@ def need_speech_detection(task: Task) -> bool:
     Returns:
         bool: True if speech detection is needed
     """
-    job = SubtitleMatchingJob(task)
+    job = SubtitleMatchingModule(task)
     job_configs = job.parse_task(task)
     if job_configs:
         return True
-    job = ScriptMatchingJob(task)
+    job = ScriptMatchingModule(task)
     job_config = job.parse_task(task)
     if job_config and job_config.configs:
         return True
-    job = BannedWordDetectionJob(task)
+    job = BannedWordDetectionModule(task)
     job_config = job.parse_task(task)
     if job_config and job_config.configs:
         return True
@@ -52,7 +52,7 @@ def create_speech_recognition_modules(task: Task, task_context: TaskContext):
     modules: dict[str, Any] = {}
     name = JobName.SpeechRecognition
     if need_speech_detection(task):
-        job = SpeechRecognitionJob(task)
+        job = SpeechRecognitionModule(task)
         event_ch = event_factory.build_event_collector_for_algo(task, name)
         frame_ch = stream_factory.build_frame_channel_for_algo(task, name)
 
@@ -75,7 +75,7 @@ def create_subtitle_matching_modules(task: Task, task_context: TaskContext):
     """
     modules: dict[str, Any] = {}
     name = JobName.SubtitleMatching
-    job = SubtitleMatchingJob(task)
+    job = SubtitleMatchingModule(task)
     job_configs = job.parse_task(task)
     if job_configs:
         event_ch_list = []
@@ -107,7 +107,7 @@ def create_card_recognition_modules(task: Task, task_context: TaskContext):
     """
     modules: dict[str, Any] = {}
     name = JobName.CardRecognition
-    job = CardRecognitionJob(task)
+    job = CardRecognitionModule(task)
     job_config = job.parse_task(task)
     if job_config and job_config.configs:
         event_ch = event_factory.build_event_collector_for_algo(task, name)
@@ -134,7 +134,7 @@ def create_signature_recognition_modules(task: Task, task_context: TaskContext):
     """
     modules: dict[str, Any] = {}
     name = JobName.SignatureRecognition
-    job = SignatureRecognitionJob(task)
+    job = SignatureRecognitionModule(task)
     job_config = job.parse_task(task)
     if job_config and job_config.configs:
         event_ch = event_factory.build_event_collector_for_algo(task, name)
@@ -161,7 +161,7 @@ def create_person_tracking_modules(task: Task, task_context: TaskContext):
     """
     modules: dict[str, Any] = {}
     name = JobName.PersonTracking
-    job = PersonTrackingJob(task)
+    job = PersonTrackingModule(task)
     job_config = job.parse_task(task)
     if job_config and job_config.configs:
         event_ch = event_factory.build_event_collector_for_algo(task, name)
@@ -188,7 +188,7 @@ def create_banned_word_detection_modules(task: Task, task_context: TaskContext):
     """
     modules: dict[str, Any] = {}
     name = JobName.BannedWordDetection
-    job = BannedWordDetectionJob(task)
+    job = BannedWordDetectionModule(task)
     job_config = job.parse_task(task)
     if job_config and job_config.configs:
         event_ch = event_factory.build_event_collector_for_algo(task, name)
@@ -214,7 +214,7 @@ def create_script_matching_modules(task: Task, task_context: TaskContext):
     """
     modules: dict[str, Any] = {}
     name = JobName.ScriptMatching
-    job = ScriptMatchingJob(task)
+    job = ScriptMatchingModule(task)
     job_config = job.parse_task(task)
     if job_config and job_config.configs:
         event_ch = event_factory.build_event_collector_for_algo(task, name)

@@ -5,7 +5,7 @@ from workflow_worker.domain.entities.tasks.subtitle_matching.report import (
 from workflow_worker.domain.entities.tasks.subtitle_matching.result import SubtitleJobResult
 from workflow_worker.domain.entities.rule import RulePoint
 from workflow_worker.domain.entities.task import Task
-from workflow_worker.applications.jobs.base.reporter import Reporter
+from workflow_worker.applications.modules.base.reporter import Reporter
 from workflow_worker.shared.logging._logging import get_logger
 
 logger = get_logger(__name__)
