@@ -8,7 +8,7 @@ from workflow_worker.shared.utils.env import get_env
 envs = get_env()
 
 
-class S3Hook(object):
+class S3Client(object):
 
     def __init__(self):
         self.client = Minio(

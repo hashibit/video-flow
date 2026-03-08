@@ -3,7 +3,7 @@ import pickle
 from workflow_worker.domain.entities.audio import Audio
 from workflow_worker.domain.entities.service.auc import AUCServiceResult
 from workflow_worker.shared.utils.env import get_env
-from workflow_worker.infrastructure.media_stream.s3_hook import S3Hook
+from workflow_worker.infrastructure.media_stream.s3client import S3Client
 
 
 class DataLoader(object):
@@ -12,7 +12,7 @@ class DataLoader(object):
 
     def get_auc_service_result(self, task_id: int) -> AUCServiceResult | None:
         try:
-            s3 = S3Hook()
+            s3 = S3Client()
             bucket = get_env().s3_bucket
             s3_obj = s3.get_key(f"task_{task_id}/auc_service_result.pkl", bucket)
             auc_service_result: AUCServiceResult = pickle.loads(s3_obj)
@@ -28,7 +28,7 @@ class DataLoader(object):
 
     def set_auc_service_result(self, task_id: int, auc_service_result: AUCServiceResult):
         try:
-            s3 = S3Hook()
+            s3 = S3Client()
             bucket = get_env().s3_bucket
             data = pickle.dumps(auc_service_result)
             s3.load_bytes(data, f"task_{task_id}/auc_service_result.pkl", bucket, replace=True)

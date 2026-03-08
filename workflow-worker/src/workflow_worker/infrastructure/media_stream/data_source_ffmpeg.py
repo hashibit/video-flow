@@ -7,7 +7,7 @@ from workflow_worker.shared.utils.env import get_env
 from workflow_worker.shared.utils.media import gather_batch_frames, extract_video_metadata, extract_audio
 from workflow_worker.infrastructure.media_stream.base import AbstractDataSource
 from workflow_worker.infrastructure.media_stream.model import StreamMessage
-from workflow_worker.infrastructure.media_stream.s3_hook import S3Hook
+from workflow_worker.infrastructure.media_stream.s3client import S3Client
 
 _env = get_env()
 
@@ -64,7 +64,7 @@ class DataSourceFFmpeg(AbstractDataSource):
 
         s3_key = f"task_{self.task.id}/audio.pcm"
         with open(local_audio, "rb") as f:
-            S3Hook().load_file_obj(f, s3_key, _env.s3_bucket, replace=True)
+            S3Client().load_file_obj(f, s3_key, _env.s3_bucket, replace=True)
 
         audio_url = f"minio://{_env.s3_bucket}/{s3_key}"
         self.logger.info(f"audio uploaded to: {audio_url}")

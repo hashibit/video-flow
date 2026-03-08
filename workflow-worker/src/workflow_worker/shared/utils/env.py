@@ -20,7 +20,7 @@ class Env(BaseSettings):
     media_data_source: str = "media_manager"
 
     # S3 related (no WORKFLOW_ prefix - use validation_alias)
-    s3_hook_name: str = Field(default="", validation_alias="s3_hook_name")
+    s3client_name: str = Field(default="", validation_alias="s3client_name")
     s3_ak: str = Field(default="admin", validation_alias="MINIO_ACCESS_KEY")
     s3_sk: str = Field(default="admin", validation_alias="MINIO_SECRET_KEY")
     s3_bucket: str = Field(default="workflow", validation_alias="WORKFLOW_JOB_BUCKET")

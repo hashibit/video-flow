@@ -27,7 +27,7 @@ from workflow_worker.services.ai.ocr import GeneralOCRService
 from workflow_worker.shared.utils.env import get_env
 from workflow_worker.applications.modules.module import ModuleBase
 from workflow_worker.applications.modules.model import JobName
-from workflow_worker.infrastructure.media_stream.s3_hook import S3Hook
+from workflow_worker.infrastructure.media_stream.s3client import S3Client
 from workflow_worker.applications.workflows.task_context import TaskContext
 
 
@@ -87,7 +87,7 @@ class SubtitleMatchingModule(ModuleBase):
 
         result = SubtitleJobResult(ai_result={})
 
-        s3 = S3Hook()
+        s3 = S3Client()
         envs = get_env()
 
         logger.info("before asyncio.run")

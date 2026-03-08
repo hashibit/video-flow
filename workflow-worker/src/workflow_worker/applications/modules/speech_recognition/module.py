@@ -6,7 +6,7 @@ from workflow_worker.services.ai.auc.service import AUCService
 from workflow_worker.applications.modules.module import ModuleBase
 from workflow_worker.applications.modules.model import JobName
 from workflow_worker.infrastructure.media_stream.frame_channel import FrameChannel
-from workflow_worker.infrastructure.media_stream.s3_hook import S3Hook
+from workflow_worker.infrastructure.media_stream.s3client import S3Client
 from workflow_worker.applications.workflows.task_context import TaskContext
 
 
@@ -35,7 +35,7 @@ class SpeechRecognitionModule(ModuleBase):
             return None
 
         if audio.url and audio.url.startswith("minio://"):
-            s3 = S3Hook()
+            s3 = S3Client()
             path = audio.url.split("minio://")[1]
             bucket = path.split("/")[0]
             file_path = "/".join(path.split("/")[1:])
