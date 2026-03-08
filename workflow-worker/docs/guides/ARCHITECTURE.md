@@ -364,24 +364,6 @@ def handle_request(data: dict):
 
 ---
 
-## Migration Guide
-
-### Migrating from Old Structure
-
-| Old Path | New Path |
-|----------|----------|
-| `engine/models/` | `workflow_worker.domain.entities/` |
-| `engine/service/` | `workflow_worker.services.ai/` |
-| `framework/modules/` | `workflow_worker.applications.jobs/` |
-| `framework/media/` | `workflow_worker.infrastructure.media/` |
-| `framework/client/` | `workflow_worker.infrastructure.external/` |
-| `apis/` | `workflow_worker.interfaces.api/` |
-| `engine/utils/` | `workflow_worker.shared.utils/` |
-| `engine/config.py` | `workflow_worker.shared.config/` |
-| `engine/logging.py` | `workflow_worker.shared.logging/` |
-
----
-
 ## FAQ
 
 ### Q1: Why adopt DDD?
