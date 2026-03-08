@@ -1,13 +1,13 @@
-# gRPC API 参考
+# gRPC API Reference
 
-Workflow Manager 与 Workflow Worker 通过 gRPC 通信。协议定义位于：
+Workflow Manager and Workflow Worker communicate exclusively over gRPC. The protocol is defined in:
 
 - `workflow-manager/src/workflow_manager/grpc/job_manager.proto`
-- `workflow-worker/src/workflow_worker/interfaces/api/workflow_manager.proto`（客户端侧镜像）
+- `workflow-worker/src/workflow_worker/interfaces/api/workflow_manager.proto` (client-side mirror)
 
 ---
 
-## 服务定义
+## Service Definition
 
 ```protobuf
 package task_workflow;
@@ -19,46 +19,46 @@ service JobManagerService {
 }
 ```
 
-默认监听地址：`0.0.0.0:50051`（由 `GRPC_ENDPOINT` 配置）
+Default listen address: `0.0.0.0:50051` (configured via `GRPC_ENDPOINT`)
 
 ---
 
-## RPC 方法
+## RPC Methods
 
 ### GetJob
 
-Worker 轮询获取下一个待执行任务（约每 10 秒一次）。
+The Worker polls for the next available job approximately every 10 seconds.
 
-Manager 原子性地将任务从 `PENDING`/`RETRY` 转为 `RUNNING`，并从外部平台拉取完整 task_json。
+The Manager atomically transitions the job from `PENDING`/`RETRY` to `RUNNING` and fetches the full task details from the external platform.
 
-**请求**
+**Request**
 
 ```protobuf
 message GetJobRequest {
-  string worker_id = 1;  // Worker 唯一标识
+  string worker_id = 1;  // Unique identifier of the worker
 }
 ```
 
-**响应**
+**Response**
 
 ```protobuf
 message GetJobResponse {
-  JobInfo job_info = 1;  // 若无可用任务则为空
+  JobInfo job_info = 1;  // Empty if no job is available
 }
 
 message JobInfo {
-  uint64 id       = 1;   // job ID（Manager 内部）
-  uint64 task_id  = 2;   // 外部任务平台 task ID
-  string task_json = 3;  // 完整任务详情（JSON 字符串）
+  uint64 id        = 1;  // Internal job ID (Manager)
+  uint64 task_id   = 2;  // External task platform task ID
+  string task_json = 3;  // Full task details (JSON string)
 }
 ```
 
-**task_json 结构示例**
+**`task_json` structure example**
 
 ```json
 {
   "id": 67890,
-  "name": "质检任务名称",
+  "name": "Inspection Task Name",
   "media": {
     "path": "/path/to/video.mp4",
     "url": "http://...",
@@ -68,16 +68,16 @@ message JobInfo {
     "rule_sections": [
       {
         "id": 1,
-        "name": "合规检查",
+        "name": "Compliance Check",
         "rule_points": [
-          { "id": 10, "category": "banword", "banword_cfg": { "words": ["违禁词"] } },
+          { "id": 10, "category": "banword", "banword_cfg": { "words": ["forbidden"] } },
           { "id": 11, "category": "subtitle", "subtitle_cfg": { "fps": 5 } }
         ]
       }
     ]
   },
   "participants": [
-    { "name": "销售顾问", "cards": [] }
+    { "name": "Sales Agent", "cards": [] }
   ]
 }
 ```
@@ -86,13 +86,13 @@ message JobInfo {
 
 ### CreateReport
 
-Worker 完成任务后提交质检报告。
+The Worker submits the inspection report after completing a job.
 
-Manager 收到后：
-1. 将报告提交至外部任务平台（`POST /report/create`）
-2. 更新任务状态为 `SUCCESS`；若失败则进入重试逻辑
+Upon receipt, the Manager:
+1. Forwards the report to the external platform (`POST /report/create`)
+2. Updates job status to `SUCCESS`; triggers retry logic on failure
 
-**请求**
+**Request**
 
 ```protobuf
 message CreateReportRequest {
@@ -104,13 +104,13 @@ message CreateReportRequest {
 message JobReport {
   uint64    id         = 1;
   string    name       = 2;
-  string    value_json = 3;  // 报告内容（JSON 字符串）
-  string    message    = 4;  // 错误或状态说明
+  string    value_json = 3;  // Report content (JSON string)
+  string    message    = 4;  // Error or status message
   Timestamp created_at = 5;
 }
 ```
 
-**value_json 结构示例**
+**`value_json` structure example**
 
 ```json
 {
@@ -122,20 +122,20 @@ message JobReport {
         {
           "id": 10,
           "banword_detection_report": {
-            "hit_words": ["违禁词"],
+            "hit_words": ["forbidden"],
             "hit_times": [["00:01:23", "00:01:25"]]
           },
-          "reasons": ["检测到违禁词：违禁词"]
+          "reasons": ["Banned word detected: forbidden"]
         }
       ],
-      "reasons": ["合规检查不通过"]
+      "reasons": ["Compliance check failed"]
     }
   ],
-  "reasons": [["合规检查不通过"]]
+  "reasons": [["Compliance check failed"]]
 }
 ```
 
-**响应**
+**Response**
 
 ```protobuf
 message CreateReportResponse {
@@ -149,18 +149,18 @@ message CreateReportResponse {
 
 ### Heartbeat
 
-Worker 定期发送心跳，上报当前正在执行的 job ID 列表。Manager 以此监控 Worker 存活状态，对超时未响应的 RUNNING 任务执行回滚。
+Workers send periodic heartbeats reporting the list of currently running job IDs. The Manager uses this to detect stale `RUNNING` jobs and roll them back when a Worker goes offline.
 
-**请求**
+**Request**
 
 ```protobuf
 message HeartbeatRequest {
   string           worker_id       = 1;
-  repeated uint64  running_job_ids = 2;  // 当前执行中的 job ID 列表
+  repeated uint64  running_job_ids = 2;  // Currently executing job IDs
 }
 ```
 
-**响应**
+**Response**
 
 ```protobuf
 message HeartbeatResponse {
@@ -170,40 +170,42 @@ message HeartbeatResponse {
 
 ---
 
-## 重试机制
+## Retry Behavior
 
 ```
-Worker 返回空报告 / 任务执行失败
+Worker returns empty report / job execution fails
           │
           ▼
    Workflow Manager
           │
-          ├── retry_times < 10  →  status = RETRY（等待下次 GetJob 重新分发）
+          ├── retry_times < 10  →  status = RETRY
+          │                        re-queued for next GetJob call
           │
-          └── retry_times >= 10 →  status = FAILED（通知外部平台）
+          └── retry_times >= 10 →  status = FAILED
+                                   external platform notified
 
-Worker 心跳超时
+Worker heartbeat timeout
           │
           ▼
-   Manager 检测到 RUNNING 任务长时间无心跳
+   Manager detects stale RUNNING job
           │
-          └──► 回滚至 RETRY
+          └──► rolls back to RETRY
 ```
 
 ---
 
-## 使用 grpcurl 手动测试
+## Manual Testing with grpcurl
 
 ```bash
-# 列出所有服务
+# List all services
 grpcurl -plaintext localhost:50051 list
 
-# 获取下一个任务
+# Fetch the next available job
 grpcurl -plaintext \
   -d '{"worker_id": "test-worker-1"}' \
   localhost:50051 task_workflow.JobManagerService/GetJob
 
-# 提交报告
+# Submit a report
 grpcurl -plaintext \
   -d '{
     "job_id": 1,
@@ -216,7 +218,7 @@ grpcurl -plaintext \
   }' \
   localhost:50051 task_workflow.JobManagerService/CreateReport
 
-# 发送心跳
+# Send a heartbeat
 grpcurl -plaintext \
   -d '{"worker_id": "test-worker-1", "running_job_ids": [1, 2]}' \
   localhost:50051 task_workflow.JobManagerService/Heartbeat
@@ -224,12 +226,12 @@ grpcurl -plaintext \
 
 ---
 
-## 生成 gRPC 代码
+## Regenerating gRPC Code
 
-修改 proto 文件后需重新生成 Python 代码：
+Run these commands after modifying any `.proto` file:
 
 ```bash
-# Workflow Manager 端
+# Manager side
 cd workflow-manager
 uv run python -m grpc_tools.protoc \
   -I./src/workflow_manager/grpc \
@@ -237,8 +239,7 @@ uv run python -m grpc_tools.protoc \
   --grpc_python_out=./src/workflow_manager/grpc \
   ./src/workflow_manager/grpc/job_manager.proto
 
-# Workflow Worker 端
+# Worker side
 cd workflow-worker
-# 参考 src/workflow_worker/interfaces/api/build.sh
 ./src/workflow_worker/interfaces/api/build.sh
 ```

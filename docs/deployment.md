@@ -1,6 +1,6 @@
-# 部署指南
+# Deployment Guide
 
-## 架构概览
+## Topology
 
 ```
                  ┌─────────────────────┐
@@ -19,57 +19,48 @@
 
 ---
 
-## Workflow Manager 部署
+## Workflow Manager
 
-### 生产环境（Docker Compose + PostgreSQL）
+### Production (Docker Compose + PostgreSQL)
 
 ```bash
 cd workflow-manager
 
-# 构建并启动
-docker-compose up -d
-
-# 查看日志
-docker-compose logs -f workflow-manager
-
-# 停止
-docker-compose down
-
-# 停止并清除数据卷
-docker-compose down -v
+docker-compose up -d             # build and start
+docker-compose logs -f workflow-manager  # tail logs
+docker-compose down              # stop
+docker-compose down -v           # stop and remove volumes
 ```
 
-`docker-compose.yml` 包含：
-- Workflow Manager 服务（Python 3.13）
-- PostgreSQL 16 数据库
-- 持久化数据卷
-- 健康检查
-- 自动重启策略
+`docker-compose.yml` includes:
+- Workflow Manager service (Python 3.13)
+- PostgreSQL 16 database
+- Persistent data volume
+- Health checks for both services
+- Automatic restart policy
 
-服务端口：
+Exposed ports:
 
-| 服务 | 端口 |
-|------|------|
+| Service | Port |
+|---------|------|
 | HTTP API | 8000 |
 | gRPC | 50051 |
 | PostgreSQL | 5432 |
 
-### 开发环境（SQLite，热重载）
+### Development (SQLite, hot reload)
 
 ```bash
 cd workflow-manager
 docker-compose -f docker-compose.dev.yml up
 ```
 
-特点：SQLite 数据库（无需外部 DB）、源码挂载、热重载。
+Features: SQLite database (no external DB needed), source code mounted as volume, hot reload enabled.
 
-### 单容器运行
+### Standalone Container
 
 ```bash
-# 构建镜像
 docker build -t workflow-manager:latest .
 
-# 运行
 docker run -d \
   -p 8000:8000 \
   -p 50051:50051 \
@@ -81,50 +72,41 @@ docker run -d \
 
 ---
 
-## Workflow Worker 部署
+## Workflow Worker
 
 ```bash
 cd workflow-worker
 
-# 构建镜像
-make build
-
-# 启动容器
-make run
-
-# 查看日志
-make logs
-
-# 停止
-make stop
+make build   # build Docker image
+make run     # start container
+make logs    # tail container logs
+make stop    # stop container
 ```
 
-或直接使用脚本：
+Or use the scripts directly:
 
 ```bash
 ./scripts/docker_build.sh
 ./scripts/docker_run.sh
 ```
 
-### Worker 关键环境变量
+### Key Environment Variables
 
-| 变量 | 示例值 | 说明 |
-|------|--------|------|
-| `WORKFLOW_WORKFLOW_MANAGER_HOST` | `workflow-manager:50051` | Manager gRPC 地址 |
-| `WORKFLOW_MEDIA_DATA_SOURCE` | `local_ffmpeg` | 视频解码方式 |
-| `WORKFLOW_MEDIA_MANAGER_HOST` | `http://media-manager:8080` | 媒体服务地址（可选）|
-| `WORKFLOW_IS_DEBUG` | `false` | 调试日志 |
+| Variable | Example | Description |
+|----------|---------|-------------|
+| `WORKFLOW_WORKFLOW_MANAGER_HOST` | `workflow-manager:50051` | Manager gRPC address |
+| `WORKFLOW_MEDIA_DATA_SOURCE` | `local_ffmpeg` | Video decode backend |
+| `WORKFLOW_MEDIA_MANAGER_HOST` | `http://media-manager:8080` | Media service address (optional) |
+| `WORKFLOW_IS_DEBUG` | `false` | Enable verbose logging |
 
 ---
 
-## 多 Worker 扩展
+## Scaling Workers
 
-每个 Worker 实例最多并发执行 **4 个任务**。通过增加 Worker 实例数量实现水平扩展。
-
-所有 Worker 指向同一个 Manager 的 gRPC 地址即可，Manager 侧无需额外配置。
+Each Worker instance handles up to **4 concurrent tasks**. Scale horizontally by adding more Worker containers — all pointing at the same Manager gRPC address.
 
 ```yaml
-# docker-compose.yml 示例（多 Worker）
+# docker-compose.yml example with multiple workers
 services:
   workflow-manager:
     image: workflow-manager:latest
@@ -148,61 +130,63 @@ services:
       WORKFLOW_WORKFLOW_MANAGER_HOST: workflow-manager:50051
 ```
 
+No Manager-side configuration changes are needed when adding workers.
+
 ---
 
-## 健康检查
+## Health Checks
 
 ```bash
-# Manager HTTP 健康检查
+# Manager HTTP health check
 curl http://localhost:8000/ping
 
-# gRPC 连通性（需要 grpcurl）
+# gRPC connectivity (requires grpcurl)
 grpcurl -plaintext localhost:50051 list
 ```
 
 ---
 
-## 数据库管理
+## Database Management
 
-### PostgreSQL 连接字符串
+### PostgreSQL connection string
 
 ```
 DATABASE_URL=postgresql://user:password@host:5432/workflow_manager
 ```
 
-### 重置数据库（仅开发环境）
+### Reset database (development only)
 
 ```python
 from workflow_manager.core.database import drop_db, init_db
 
-drop_db()   # 删除所有表
-init_db()   # 重新创建表
+drop_db()   # drop all tables
+init_db()   # recreate tables
 ```
 
-### 备份（PostgreSQL）
+### Backup and restore (PostgreSQL)
 
 ```bash
-# 备份
-docker exec workflow-manager-db pg_dump -U postgres workflow_manager > backup.sql
+# Backup
+docker exec workflow-manager-db \
+  pg_dump -U postgres workflow_manager > backup.sql
 
-# 恢复
-docker exec -i workflow-manager-db psql -U postgres workflow_manager < backup.sql
+# Restore
+docker exec -i workflow-manager-db \
+  psql -U postgres workflow_manager < backup.sql
 ```
 
 ---
 
-## 日志
+## Logging
 
-两个服务均将结构化日志输出到 stdout，便于接入 ELK、Loki 等日志系统。
+Both services write structured logs to stdout, making them compatible with log aggregation systems such as ELK or Loki.
 
-Worker 开启调试日志：
+Enable debug logging:
 
 ```bash
+# Worker
 WORKFLOW_IS_DEBUG=true uv run python -m workflow_worker.interfaces.cli.worker
-```
 
-Manager 开启调试模式：
-
-```bash
+# Manager
 DEBUG=true uv run python -m workflow_manager
 ```

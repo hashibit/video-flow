@@ -1,15 +1,15 @@
-# 快速上手
+# Getting Started
 
-## 前置要求
+## Prerequisites
 
-| 工具 | 版本 | 说明 |
-|------|------|------|
-| Python | 3.13+ | 两个服务均需要 |
-| [uv](https://docs.astral.sh/uv/) | 最新版 | 包管理器 |
-| FFmpeg | 任意版本 | Worker 本地视频解码需要 |
-| Docker | 20+ | 容器化部署（可选） |
+| Tool | Version | Notes |
+|------|---------|-------|
+| Python | 3.13+ | Required by both services |
+| [uv](https://docs.astral.sh/uv/) | latest | Package manager |
+| FFmpeg | any | Required for local video decoding in the Worker |
+| Docker | 20+ | Optional, for containerized deployment |
 
-安装 uv：
+Install uv:
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -17,29 +17,29 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ---
 
-## 启动 Workflow Manager
+## Start Workflow Manager
 
 ```bash
 cd workflow-manager
 
-# 安装依赖
+# Install dependencies
 uv sync
 
-# 生成 gRPC 代码（首次运行或修改 proto 后执行）
+# Generate gRPC code (required on first run or after modifying the proto file)
 uv run python -m grpc_tools.protoc \
   -I./src/workflow_manager/grpc \
   --python_out=./src/workflow_manager/grpc \
   --grpc_python_out=./src/workflow_manager/grpc \
   ./src/workflow_manager/grpc/job_manager.proto
 
-# 复制并编辑配置
+# Copy and edit configuration
 cp .env.example .env
 
-# 启动（同时启动 HTTP :8000 和 gRPC :50051）
+# Start (HTTP :8000 + gRPC :50051)
 uv run python -m workflow_manager
 ```
 
-验证服务正常：
+Verify the service is running:
 
 ```bash
 curl http://localhost:8000/ping
@@ -48,45 +48,45 @@ curl http://localhost:8000/ping
 
 ---
 
-## 启动 Workflow Worker
+## Start Workflow Worker
 
 ```bash
 cd workflow-worker
 
-# 安装全部依赖（含媒体处理、gRPC 等可选依赖）
+# Install all dependencies (including media, gRPC, and other optional extras)
 uv sync --all-extras
-# 或使用辅助脚本
+# or use the helper script
 ./scripts/install_deps.sh all
 
-# 复制并编辑配置
+# Copy and edit configuration
 cp .env.example .env
 ```
 
-`.env` 中至少需要设置：
+Minimum required variables in `.env`:
 
 ```bash
-WORKFLOW_WORKFLOW_MANAGER_HOST=localhost:50051   # Manager gRPC 地址
-WORKFLOW_MEDIA_DATA_SOURCE=local_ffmpeg          # 视频解码方式
+WORKFLOW_WORKFLOW_MANAGER_HOST=localhost:50051   # Manager gRPC address
+WORKFLOW_MEDIA_DATA_SOURCE=local_ffmpeg          # Video decode backend
 ```
 
 ```bash
-# 启动 Worker
+# Start the Worker
 uv run python -m workflow_worker.interfaces.cli.worker
 ```
 
 ---
 
-## 配置说明
+## Configuration Reference
 
-### Workflow Manager（`.env`）
+### Workflow Manager (`.env`)
 
 ```bash
-# 基础
+# Application
 DEBUG=false
 HOST=0.0.0.0
 PORT=8000
 
-# 数据库（开发用 SQLite，生产用 PostgreSQL）
+# Database (SQLite for dev, PostgreSQL for production)
 DATABASE_URL=sqlite:///./workflow_manager.db
 # DATABASE_URL=postgresql://user:password@localhost:5432/workflow_manager
 
@@ -94,29 +94,29 @@ DATABASE_URL=sqlite:///./workflow_manager.db
 GRPC_ENDPOINT=0.0.0.0:50051
 GRPC_ENABLED=true
 
-# 外部任务平台
+# External task platform
 EXTERNAL_API_URL=http://external-api-service:8080
 EXTERNAL_API_TIMEOUT=30
 
-# 调度器
+# Scheduler
 SCHEDULER_ENABLED=true
 SCHEDULER_INTERVAL_SECONDS=5
 ```
 
-### Workflow Worker（`.env`）关键变量
+### Workflow Worker — key variables
 
-| 变量 | 默认值 | 说明 |
-|------|--------|------|
-| `WORKFLOW_WORKFLOW_MANAGER_HOST` | — | Manager gRPC 地址（必填） |
-| `WORKFLOW_MEDIA_DATA_SOURCE` | `local_ffmpeg` | `local_ffmpeg` 或 `media_manager` |
-| `WORKFLOW_MEDIA_MANAGER_HOST` | — | Media Manager HTTP 地址（当 source=media_manager 时必填）|
-| `WORKFLOW_IS_DEBUG` | `false` | 开启后打印详细日志 |
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `WORKFLOW_WORKFLOW_MANAGER_HOST` | — | Manager gRPC address (required) |
+| `WORKFLOW_MEDIA_DATA_SOURCE` | `local_ffmpeg` | `local_ffmpeg` or `media_manager` |
+| `WORKFLOW_MEDIA_MANAGER_HOST` | — | Media Manager HTTP base URL (required when using `media_manager`) |
+| `WORKFLOW_IS_DEBUG` | `false` | Enable verbose logging |
 
-完整变量列表见 [workflow-worker/docs/guides/INTERFACES.md](../workflow-worker/docs/guides/INTERFACES.md)。
+Full variable list: [workflow-worker/docs/guides/INTERFACES.md](../workflow-worker/docs/guides/INTERFACES.md)
 
 ---
 
-## 运行测试
+## Running Tests
 
 ```bash
 # Workflow Manager
@@ -132,47 +132,43 @@ uv run pytest --cov
 
 ---
 
-## 开发工具
+## Development Tools
 
 ### Workflow Manager
 
 ```bash
-# 代码检查
-uv run ruff check .
-# 自动修复
-uv run ruff check --fix .
-# 格式化
-uv run ruff format .
-# 类型检查
-uv run mypy src/
+uv run ruff check .           # lint
+uv run ruff check --fix .     # auto-fix
+uv run ruff format .          # format
+uv run mypy src/              # type-check
 ```
 
 ### Workflow Worker
 
 ```bash
-uv run black src/          # 格式化
-uv run pylint src/         # Lint
-uv run basedpyright src/   # 类型检查
+uv run black src/             # format
+uv run pylint src/            # lint
+uv run basedpyright src/      # type-check
 ```
 
 ---
 
-## 创建一个测试任务
+## API Quick Reference
 
-Manager 启动后，可以通过 REST API 创建任务：
+Once the Manager is running, use these REST endpoints:
 
 ```bash
-# 创建任务（task_id 来自外部任务平台）
+# Create a job (task_id comes from the external task platform)
 curl -X POST http://localhost:8000/api/v1/job/create_job \
   -H "Content-Type: application/json" \
   -d '{"task_id": 123, "project_name": "test_project"}'
 
-# 查询任务状态
+# Get job details by ID
 curl -X POST http://localhost:8000/api/v1/job/get_job \
   -H "Content-Type: application/json" \
   -d '{"id": 1}'
 
-# 分页查询任务列表
+# List jobs with pagination
 curl -X POST http://localhost:8000/api/v1/job/list_jobs \
   -H "Content-Type: application/json" \
   -d '{"page": 1, "page_size": 10}'

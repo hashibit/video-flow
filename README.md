@@ -1,88 +1,88 @@
 # Video Flow
 
-视频质检工作流系统（Video Quality Inspection Workflow System）。
+A distributed video quality-inspection workflow system.
 
-该系统对视频内容进行多维度 AI 分析（语音识别、人脸检测、OCR、违禁词检测、台词匹配等），自动生成结构化质检报告。
+It performs multi-dimensional AI analysis on video content — speech recognition, face detection, OCR, banned-word detection, script compliance matching, and more — and produces structured quality-inspection reports automatically.
 
 ---
 
-## 系统组成
+## Components
 
 ```
 video-flow/
-├── workflow-manager/   # 任务调度中心（REST + gRPC 服务）
-└── workflow-worker/    # AI 分析执行节点（DDD 架构）
+├── workflow-manager/   # Job scheduling hub (REST + gRPC)
+└── workflow-worker/    # AI analysis execution node (DDD architecture)
 ```
 
-| 组件 | 职责 |
-|------|------|
-| **Workflow Manager** | 管理任务队列、向 Worker 分发任务、收集执行结果、对接外部任务平台 |
-| **Workflow Worker** | 拉取任务、解码视频、并行调用 AI 服务、生成质检报告 |
+| Component | Responsibility |
+|-----------|----------------|
+| **Workflow Manager** | Manages the job queue, distributes jobs to workers, collects results, interfaces with the external task platform |
+| **Workflow Worker** | Pulls jobs, decodes video, runs AI services in parallel, generates inspection reports |
 
 ---
 
-## 整体架构
+## System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     External Task Platform                   │
-│         创建任务 (REST)              接收报告 (REST)           │
+│                   External Task Platform                     │
+│       Create tasks (REST)            Receive reports (REST)  │
 └─────────────────┬───────────────────────────┬───────────────┘
                   │                           │
                   ▼                           ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                      Workflow Manager                        │
-│  - REST API (FastAPI)     :8000                              │
-│  - gRPC (JobManagerService)  :50051                          │
-│  - PostgreSQL 任务队列                                        │
-│  - 自动调度 + 最多 10 次重试                                   │
+│                     Workflow Manager                         │
+│  - REST API (FastAPI)          :8000                         │
+│  - gRPC (JobManagerService)    :50051                        │
+│  - PostgreSQL job queue                                      │
+│  - Auto-scheduling + up to 10 retries                        │
 └──────────────────────────┬──────────────────────────────────┘
                            │ gRPC: GetJob / CreateReport / Heartbeat
               ┌────────────┼────────────┐
               ▼            ▼            ▼
        ┌──────────┐ ┌──────────┐ ┌──────────┐
-       │ Worker 1 │ │ Worker 2 │ │ Worker N │   （水平扩展）
+       │ Worker 1 │ │ Worker 2 │ │ Worker N │  (horizontal scale)
        └──────────┘ └──────────┘ └──────────┘
               │
               │ gRPC
-   ┌──────────┼────────────────────┐
-   ▼          ▼                    ▼
-┌──────┐  ┌─────────┐  ┌──────────────────────┐
-│ AUC  │  │ Det/    │  │ OCR / Feature /      │
-│(ASR) │  │ Track   │  │ Face Verify Services │
-└──────┘  └─────────┘  └──────────────────────┘
+   ┌──────────┼───────────────────────┐
+   ▼          ▼                       ▼
+┌──────┐  ┌──────────┐  ┌──────────────────────┐
+│ AUC  │  │ Det /    │  │ OCR / Feature /      │
+│(ASR) │  │ Track    │  │ Face Verify Services │
+└──────┘  └──────────┘  └──────────────────────┘
 ```
 
 ---
 
-## 快速开始
+## Quick Start
 
-### 前置依赖
+### Prerequisites
 
 - Python 3.13+
-- [uv](https://docs.astral.sh/uv/) 包管理器
-- Docker & Docker Compose（容器化部署）
+- [uv](https://docs.astral.sh/uv/) package manager
+- Docker & Docker Compose (for containerized deployment)
 
-### 本地开发
+### Local Development
 
 ```bash
-# 启动 Workflow Manager
+# Start Workflow Manager
 cd workflow-manager
 uv sync
-cp .env.example .env    # 按需修改配置
+cp .env.example .env    # edit as needed
 uv run python -m workflow_manager
 
-# 启动 Workflow Worker（新终端）
+# Start Workflow Worker (new terminal)
 cd workflow-worker
 uv sync --all-extras
-cp .env.example .env    # 设置 WORKFLOW_WORKFLOW_MANAGER_HOST 等
+cp .env.example .env    # set WORKFLOW_WORKFLOW_MANAGER_HOST etc.
 uv run python -m workflow_worker.interfaces.cli.worker
 ```
 
-### Docker Compose 部署
+### Docker Compose Deployment
 
 ```bash
-# 生产环境（PostgreSQL）
+# Production (with PostgreSQL)
 cd workflow-manager
 docker-compose up -d
 
@@ -93,33 +93,33 @@ make build && make run
 
 ---
 
-## 文档索引
+## Documentation
 
-| 文档 | 说明 |
-|------|------|
-| [系统架构](docs/architecture.md) | 整体设计、模块职责、依赖关系 |
-| [快速上手](docs/getting-started.md) | 本地开发环境搭建与运行 |
-| [gRPC API 参考](docs/grpc-api.md) | Manager ↔ Worker 通信协议详解 |
-| [部署指南](docs/deployment.md) | Docker / 生产环境部署 |
-| [Workflow Manager 文档](workflow-manager/README.md) | Manager 详细文档 |
-| [Workflow Worker 文档](workflow-worker/README.md) | Worker 详细文档 |
+| Document | Description |
+|----------|-------------|
+| [Architecture](docs/architecture.md) | System design, module responsibilities, dependency rules |
+| [Getting Started](docs/getting-started.md) | Local dev environment setup and running |
+| [gRPC API Reference](docs/grpc-api.md) | Manager ↔ Worker communication protocol |
+| [Deployment Guide](docs/deployment.md) | Docker and production deployment |
+| [Workflow Manager README](workflow-manager/README.md) | Manager-specific documentation |
+| [Workflow Worker README](workflow-worker/README.md) | Worker-specific documentation |
 
 ---
 
-## 技术栈
+## Technology Stack
 
-| 类别 | 技术 |
-|------|------|
-| 语言 | Python 3.13+ |
-| 包管理 | uv |
-| Manager Web 框架 | FastAPI + Uvicorn |
-| Manager 数据库 | SQLAlchemy + PostgreSQL / SQLite |
-| Manager 调度器 | APScheduler |
-| 通信协议 | gRPC + Protobuf |
-| Worker 异步框架 | asyncio |
-| 视频解码 | FFmpeg (ffmpeg-python) / gRPC Media Manager |
-| 图像处理 | OpenCV |
-| 对象存储 | MinIO (S3 兼容) |
-| 容器化 | Docker（多阶段构建） |
-| 数据校验 | Pydantic v2 |
-| Worker 配置 | Dynaconf |
+| Category | Technology |
+|----------|------------|
+| Language | Python 3.13+ |
+| Package manager | uv |
+| Manager web framework | FastAPI + Uvicorn |
+| Manager database | SQLAlchemy + PostgreSQL / SQLite |
+| Manager scheduler | APScheduler |
+| Communication | gRPC + Protobuf |
+| Worker async framework | asyncio |
+| Video decoding | FFmpeg (ffmpeg-python) / gRPC Media Manager |
+| Image processing | OpenCV |
+| Object storage | MinIO (S3-compatible) |
+| Containerization | Docker (multi-stage build) |
+| Data validation | Pydantic v2 |
+| Worker configuration | Dynaconf |
