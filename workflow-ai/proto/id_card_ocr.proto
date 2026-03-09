@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+import "base.proto";
+
+package id_card_ocr;
+
+enum CardType {
+    CARD_TYPE_UNKNOWN = 0;
+    ID_CARD = 1;
+    BANK_CARD = 2;
+}
+
+enum Side {
+    SIDE_UNKNOWN = 0;
+    Front = 1;
+    Back = 2;
+}
+
+message CardOCRReq {
+    string req_name = 1;
+    bytes img_data = 2;
+    CardType card_type = 3;
+    base.Base base = 4;
+}
+
+message ExtractInfo {
+    string name = 1;
+    double confidence = 2;
+    repeated int32 info_corners = 3;
+    string recog_str = 4;
+}
+
+message CardOCRRsp {
+    bool is_detected = 1;
+    Side side = 2;
+    repeated int32 card_corners = 3;
+    repeated ExtractInfo extract_info_list = 4;
+    bytes cropped_img = 5;
+    repeated int32 face_corners = 6;
+    base.BaseResp base_resp = 7;
+}
+
+service CardOCR {
+    rpc Predict(CardOCRReq) returns (CardOCRRsp);
+}

@@ -1,0 +1,19 @@
+services:
+  workflow-ai:
+    build: .
+    image: workflow-ai:latest
+    restart: unless-stopped
+    ports:
+      - "50100:50100"   # ASR
+      - "50101:50101"   # Detection
+      - "50102:50102"   # Face feature
+      - "50103:50103"   # OCR general
+      - "50104:50104"   # OCR handwriting
+      - "50105:50105"   # OCR document
+      - "50106:50106"   # OCR ID card
+    volumes:
+      - ./models:/app/models     # pre-downloaded model weights
+    env_file:
+      - .env
+    environment:
+      - WORKFLOW_AI_IS_DEBUG=false

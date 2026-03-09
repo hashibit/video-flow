@@ -49,7 +49,7 @@ class SubtitleMatchingModule(ModuleBase):
         job_cfg = None
         job_cfgs = []
 
-# Use scenario mode instead of rule mode for processing here
+        # Use scenario mode instead of rule mode for processing here
         for rule_section in task.scenario.rule_sections:
             for rule_point in rule_section.rule_points:
                 if rule_point and rule_point.subtitle_cfg:

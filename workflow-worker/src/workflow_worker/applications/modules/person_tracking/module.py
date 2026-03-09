@@ -87,7 +87,7 @@ class PersonTrackingModule(ModuleBase):
         Returns:
             PersonTrackingReport: the tacking job result.
         """
-#       # TaskConfigInfo
+        # TaskConfigInfo
 
         frame_ch = task_context.frame_channels[JobName.PersonTracking]
         event_ch = task_context.event_channels[JobName.PersonTracking]
@@ -109,7 +109,7 @@ class PersonTrackingModule(ModuleBase):
             created_at=datetime.now(),
         ))
 
-# FaceDetectionService
+        # FaceDetectionService
         detection_service = DetService()
         # TrackingService
         tracking_service = TrackService(

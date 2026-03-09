@@ -120,7 +120,7 @@ class ScriptMatchingModule(ModuleBase):
             # candidate start ids
             candidate_start_ids = []
             candidate_scores = []
-# Compare in two steps for performance reasons
+            # Compare in two steps for performance reasons
             win_size = max(len(diaglogue) - len(start_text) + 1, 0)
             for k in range(win_size):
                 candidate_text = diaglogue[k : k + len(start_text)]
@@ -129,7 +129,7 @@ class ScriptMatchingModule(ModuleBase):
                 if score > self._quick_filter_threshold:
                     candidate_start_ids.append(k)
 
-# Calculate overall similarity
+            # Calculate overall similarity
             for k, idx in enumerate(candidate_start_ids):
                 candidate_text = diaglogue[idx : idx + len(script_text)]
                 score = calc_text_similarity(
@@ -282,7 +282,7 @@ class ScriptMatchingModule(ModuleBase):
 
         # rule_section_infos = self._rule_info.rule_section_infos
         for i, script_result in enumerate(script_results):
-# The text between the end of the current matched text and the start of the next text is the candidate for reply
+            # The text between the end of the current matched text and the start of the next text is the candidate for reply
             start_idx = script_result.end_idx
             if i + 1 != len(script_results):
                 next_result = script_results[i + 1]
@@ -397,7 +397,7 @@ class ScriptMatchingModule(ModuleBase):
         _event_ch = task_context.event_channels[JobName.ScriptMatching]
         logger = task_context.get_task_logger().getChild("Module.ScriptMatching")
 
-#       # GetAudioResult
+        # GetAudioResult
         auc_service_result = task_context.get_auc_service_result()
         if auc_service_result is None:
             logger.error("no auc service result in task_context?? fallback: use audio to extract one.")
@@ -409,7 +409,7 @@ class ScriptMatchingModule(ModuleBase):
             auc_service_result = service.run(audio)
             task_context.set_auc_service_result(auc_service_result)
 
-# Get audio result object, including parsed text
+        # Get audio result object, including parsed text
         dialogue = auc_service_result.dialogue
 
         # Find all possible matching start positions
