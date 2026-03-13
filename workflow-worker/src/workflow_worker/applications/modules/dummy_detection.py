@@ -2,7 +2,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from workflow_worker.interfaces.api.media_service_pb2 import NotifyStatus
+from workflow_proto.media_service_pb2 import NotifyStatus
 from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.domain.entities.task import Task
 from workflow_worker.applications.modules.module import ModuleBase

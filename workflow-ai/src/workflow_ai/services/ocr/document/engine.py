@@ -45,7 +45,7 @@ class DocumentOCREngine:
         if self._ocr is not None:
             return
         try:
-            from paddleocr import PaddleOCR  # type: ignore[import-untyped]
+            from paddleocr import PaddleOCR  # type: ignore[import-untyped] # pyright: ignore[reportMissingImports]
             self._ocr = PaddleOCR(use_angle_cls=True, lang="ch", use_gpu=self.use_gpu)
             logger.info("DocumentOCR engine loaded")
         except ImportError as exc:
@@ -81,7 +81,7 @@ class DocumentOCREngine:
         return DocumentOCRResult(num_poly=1, pages=[page])
 
     @staticmethod
-    def _convex_hull_points(polys: list) -> list:
+    def _convex_hull_points(polys: list) -> list:  # pyright: ignore[reportMissingTypeArgument]
         import cv2  # type: ignore[import-untyped]
         pts = np.array([p for poly in polys for p in poly], dtype=np.float32)
         hull = cv2.convexHull(pts)

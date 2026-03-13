@@ -24,17 +24,17 @@ def need_speech_detection(task: Task) -> bool:
     Returns:
         bool: True if speech detection is needed
     """
-    job = SubtitleMatchingModule(task)
-    job_configs = job.parse_task(task)
+    subtitle_job = SubtitleMatchingModule(task)
+    job_configs = subtitle_job.parse_task(task)
     if job_configs:
         return True
-    job = ScriptMatchingModule(task)
-    job_config = job.parse_task(task)
-    if job_config and job_config.configs:
+    script_job = ScriptMatchingModule(task)
+    script_config = script_job.parse_task(task)
+    if script_config and script_config.configs:
         return True
-    job = BannedWordDetectionModule(task)
-    job_config = job.parse_task(task)
-    if job_config and job_config.configs:
+    banword_job = BannedWordDetectionModule(task)
+    banword_config = banword_job.parse_task(task)
+    if banword_config and banword_config.configs:
         return True
     return False
 

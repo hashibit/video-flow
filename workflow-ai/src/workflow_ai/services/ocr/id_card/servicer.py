@@ -15,7 +15,7 @@ class CardOCRServicer:
         self._engine = engine or IDCardOCREngine()
 
     def Predict(self, request, context):  # noqa: N802
-        from workflow_ai.grpc import id_card_ocr_pb2  # type: ignore[import]
+        from workflow_proto import id_card_ocr_pb2  # type: ignore[import]
 
         result = self._engine.recognize(request.img_data, card_type=request.card_type)
         base_resp = id_card_ocr_pb2.base.BaseResp(status_code=0, status_message="ok")

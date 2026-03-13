@@ -64,7 +64,7 @@ class DetectionEngine:
         if self._face_model is not None:
             return
         try:
-            import insightface  # type: ignore[import-untyped]
+            import insightface  # type: ignore[import-untyped] # pyright: ignore[reportMissingImports]
             app = insightface.app.FaceAnalysis(
                 name="buffalo_sc",
                 root=self.model_path,

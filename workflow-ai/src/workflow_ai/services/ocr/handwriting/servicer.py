@@ -15,7 +15,7 @@ class OCRHwServicer:
         self._engine = engine or HandwritingOCREngine()
 
     def GetGeneralHwOcr(self, request, context):  # noqa: N802
-        from workflow_ai.grpc import hw_ocr_pb2  # type: ignore[import]
+        from workflow_proto import hw_ocr_pb2  # type: ignore[import]
 
         result = self._engine.recognize(
             image_data=request.image_data,

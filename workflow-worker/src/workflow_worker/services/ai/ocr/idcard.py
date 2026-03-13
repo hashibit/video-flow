@@ -1,7 +1,7 @@
 from workflow_worker.shared.config._config import settings
 from workflow_worker.domain.entities.frame import Frame
 from workflow_worker.domain.entities.service.ocr import IDCardOCRInfo, OCRInfoType, OCRServiceResult, TextBlock
-from workflow_worker.domain.entities.proto import id_card_ocr_pb2, id_card_ocr_pb2_grpc
+from workflow_proto import id_card_ocr_pb2, id_card_ocr_pb2_grpc
 from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.services.ai.ocr.base import BatchOCRService
 from workflow_worker.shared.utils.frame import get_image_bytes

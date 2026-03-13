@@ -6,7 +6,7 @@ import numpy as np
 from workflow_worker.shared.config._config import settings
 from workflow_worker.domain.entities.frame import Frame
 from workflow_worker.domain.entities.service.ocr import OCRInfo, OCRInfoType, OCRServiceResult, TextBlock
-from workflow_worker.domain.entities.proto import ocr_ehd_warp_pb2, ocr_ehd_warp_pb2_grpc
+from workflow_proto import ocr_ehd_warp_pb2, ocr_ehd_warp_pb2_grpc
 from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.services.ai.ocr.base import BatchOCRService
 from workflow_worker.services.ai.ocr.general import GeneralOCRService
@@ -65,7 +65,7 @@ class DocumentOCRService(BatchOCRService):
             self._log_grpc_error(rsp.base_resp, "Error from document OCR service", logger)
 
         frame_image = decode_image(image_bytes)  # pyright: ignore[reportArgumentType]
-        frame_height, frame_width = frame_image.shape[:2]
+        frame_height, frame_width = frame_image.shape[:2]  # pyright: ignore[reportOptionalMemberAccess]
 
         ocr_infos = [
             self._process_page(page, frame_width, frame_height)
@@ -84,10 +84,10 @@ class DocumentOCRService(BatchOCRService):
             polygon.extend([_adjust_coord(pt.x, width), _adjust_coord(pt.y, height)])
 
         image_array = decode_image(page.image_page)
-        h, w, _ = image_array.shape
-        src_corners = np.float32([[0, 0], [w - 1, 0], [w - 1, h - 1], [0, h - 1]])  # pyright: ignore[reportCallIssue, reportArgumentType]
-        dst_corners = np.float32(polygon).reshape(-1, 2)  # pyright: ignore[reportCallIssue, reportArgumentType]
-        inverse_mat = cv2.getPerspectiveTransform(src=src_corners, dst=dst_corners)
+        h, w, _ = image_array.shape  # pyright: ignore[reportOptionalMemberAccess]
+        src_corners = np.float32([[0, 0], [w - 1, 0], [w - 1, h - 1], [0, h - 1]])  # type: ignore[arg-type] # pyright: ignore[reportCallIssue, reportArgumentType]
+        dst_corners = np.float32(polygon).reshape(-1, 2)  # type: ignore[arg-type] # pyright: ignore[reportCallIssue, reportArgumentType]
+        inverse_mat = cv2.getPerspectiveTransform(src=src_corners, dst=dst_corners)  # type: ignore[call-overload] # pyright: ignore[reportCallIssue, reportArgumentType]
 
         normal_ocr_result = self.ocr_normal_client.predict(Frame(url="", data=page.image_page))
         text_blocks = normal_ocr_result.ocr_infos[0].text_blocks

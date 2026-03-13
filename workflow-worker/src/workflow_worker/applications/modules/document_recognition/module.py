@@ -155,7 +155,7 @@ class DocumentRecognitionModule:
                     draw_box(cv_img, bbox, (0, 255, 0))
                 elif bbox and len(bbox) == 8:
                     draw_polygon(cv_img, bbox, (0, 255, 0))
-                drawed_img_bytes = encode_image(cv_img)
+                drawed_img_bytes = encode_image(cv_img)  # pyright: ignore[reportArgumentType]
                 url = get_storage_url(self.task_uuid, drawed_img_bytes)
                 job_result.url = url
                 job_result.frame.url = url

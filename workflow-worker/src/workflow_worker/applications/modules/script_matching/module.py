@@ -111,7 +111,7 @@ class ScriptMatchingModule(ModuleBase):
         for i, script_match_cfg in enumerate(script_match_job_cfg.configs):
 
             max_idx = -1
-            max_score = 0
+            max_score: float = 0
 
             script_text = script_match_cfg.script
             # get start text of script text

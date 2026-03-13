@@ -19,7 +19,7 @@ class FaceProcessServicer:
         self._engine = engine or FaceFeatureEngine()
 
     def Predict(self, request, context):  # noqa: N802
-        from workflow_ai.grpc import face_process_pb2  # type: ignore[import]
+        from workflow_proto import face_process_pb2  # type: ignore[import]
 
         images = list(request.frame_list)
         # bbox is a flat list: [x1,y1,x2,y2, x1,y1,x2,y2, ...]
@@ -53,7 +53,7 @@ class FaceProcessServicer:
         )
 
     def GetSupportType(self, request, context):  # noqa: N802
-        from workflow_ai.grpc import face_process_pb2  # type: ignore[import]
+        from workflow_proto import face_process_pb2  # type: ignore[import]
         base_resp = face_process_pb2.base.BaseResp(status_code=0, status_message="ok")
         return face_process_pb2.SupportTypeRsp(
             support_type_list=["extract_feature"],

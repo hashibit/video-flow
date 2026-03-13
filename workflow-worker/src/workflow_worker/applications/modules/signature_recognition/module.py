@@ -51,7 +51,7 @@ class SignatureRecognitionModule(ModuleBase):
             for rule_section in task.rule.rule_sections:
                 for rule_point in rule_section.rule_points:
                     if rule_point:
-                        configs.extend(self._get_sign_recog_cfg(rule_point, task.participants))  # pyright: ignore[reportArgumentType]
+                        configs.extend(self._get_sign_recog_cfg(rule_point, task.participants))  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
         return SignatureRecognitionJobCfg(
             fps=fps, batch_size=10, media=task.media, configs=configs
         )
@@ -201,7 +201,7 @@ class SignatureRecognitionModule(ModuleBase):
                     draw_box(cv_img, bbox, (0, 255, 0))
                 elif bbox and len(bbox) == 8:
                     draw_polygon(cv_img, bbox, (0, 255, 0))
-                drawed_img_bytes = encode_image(cv_img)
+                drawed_img_bytes = encode_image(cv_img)  # pyright: ignore[reportArgumentType]
                 url = get_storage_url(self.task_uuid, drawed_img_bytes)
                 job_result.url = url
                 job_result.frame.url = url

@@ -24,7 +24,7 @@ class OCRServicer:
     # ------------------------------------------------------------------
 
     def ReadTextAndLocateChars(self, request, context):  # noqa: N802
-        from workflow_ai.grpc import ocr_normal_pb2  # type: ignore[import]
+        from workflow_proto import ocr_normal_pb2  # type: ignore[import]
 
         result = self._engine.recognize(request.image_data)
         base_resp = ocr_normal_pb2.base.BaseResp(status_code=0, status_message="ok")
@@ -42,7 +42,7 @@ class OCRServicer:
     Read_text_and_locate_chars = ReadTextAndLocateChars  # noqa: N815
 
     def ReadScreenImg(self, request, context):  # noqa: N802
-        from workflow_ai.grpc import ocr_normal_pb2  # type: ignore[import]
+        from workflow_proto import ocr_normal_pb2  # type: ignore[import]
 
         result = self._engine.recognize(request.image_data)
         text = " ".join(result.line_text)
@@ -53,7 +53,7 @@ class OCRServicer:
     Read_Screen_Img = ReadScreenImg  # noqa: N815
 
     def ReadTextAndLocateCharsBatch(self, request, context):  # noqa: N802
-        from workflow_ai.grpc import ocr_normal_pb2  # type: ignore[import]
+        from workflow_proto import ocr_normal_pb2  # type: ignore[import]
 
         all_line_text, all_line_rect, all_char_score, all_rot_rect = [], [], [], []
         for img_data in request.image_data_batch:
@@ -73,7 +73,7 @@ class OCRServicer:
         )
 
     def LocateTextAdv(self, request, context):  # noqa: N802
-        from workflow_ai.grpc import ocr_normal_pb2  # type: ignore[import]
+        from workflow_proto import ocr_normal_pb2  # type: ignore[import]
 
         result = self._engine.recognize(request.image_data)
         base_resp = ocr_normal_pb2.base.BaseResp(status_code=0, status_message="ok")

@@ -50,7 +50,7 @@ class FaceFeatureEngine:
         if self._app is not None:
             return
         try:
-            import insightface  # type: ignore[import-untyped]
+            import insightface  # type: ignore[import-untyped] # pyright: ignore[reportMissingImports]
             app = insightface.app.FaceAnalysis(
                 name="buffalo_l",
                 root=self.model_path,
@@ -109,7 +109,7 @@ class FaceFeatureEngine:
 
         return results
 
-    def _best_feature(self, face_map: dict, target_bbox: list[int]) -> list[float] | None:
+    def _best_feature(self, face_map: dict, target_bbox: list[int]) -> list[float] | None:  # pyright: ignore[reportMissingTypeArgument]
         """Find the detected face that best overlaps *target_bbox* and return its embedding."""
         best_iou, best_embedding = 0.0, None
         for face_bbox, face in face_map.items():
@@ -136,7 +136,7 @@ class FaceFeatureEngine:
         if not feature:
             return b""
         try:
-            from workflow_ai.grpc import featurePB_pb2  # type: ignore[import]
+            from workflow_proto import featurePB_pb2  # type: ignore[import]
             proto = featurePB_pb2.FaceFeature()
             proto.feature.extend(feature)
             return proto.SerializeToString()

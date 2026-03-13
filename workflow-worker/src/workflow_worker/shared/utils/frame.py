@@ -2,8 +2,8 @@ import hashlib
 import os
 import cv2  # pyright: ignore[reportMissingImports]
 import numpy as np
-import requests
-from six.moves import urllib_parse  # pyright: ignore[reportMissingImports,reportMissingModuleSource]
+import requests  # type: ignore[import-untyped]
+from six.moves import urllib_parse  # type: ignore[import-untyped] # pyright: ignore[reportMissingImports,reportMissingModuleSource]
 from workflow_worker.domain.entities.frame import BatchFrame, Frame
 def get_image_bytes(frame: Frame):
     """Get frame bytes from Frame.

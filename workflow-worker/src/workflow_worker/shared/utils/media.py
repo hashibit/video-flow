@@ -369,7 +369,6 @@ def gather_batch_frames(
 def gather_batch_frames_opencv(
         media_file, width, height, fps=2, batch_size=1, ts=0.0, cut_count=None
 ):
-    channel = 3
     frames = BatchFrame(frames=[], batch_size=0)
     cap = cv2.VideoCapture(media_file)
     video_fps = round(cap.get(5))  # CV_CAP_PROP_FPS = 5

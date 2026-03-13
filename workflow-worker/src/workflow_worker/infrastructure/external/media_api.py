@@ -1,5 +1,5 @@
 
-import requests
+import requests  # type: ignore[import-untyped]
 
 from workflow_worker.domain.entities.task import MediaMeta
 from workflow_worker.shared.logging._logging import get_logger

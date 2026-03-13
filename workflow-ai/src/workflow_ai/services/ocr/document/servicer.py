@@ -15,7 +15,7 @@ class OcrEHDWarpServicer:
         self._engine = engine or DocumentOCREngine()
 
     def OcrWarp(self, request, context):  # noqa: N802
-        from workflow_ai.grpc import ocr_ehd_warp_pb2  # type: ignore[import]
+        from workflow_proto import ocr_ehd_warp_pb2  # type: ignore[import]
 
         result = self._engine.warp(request.image)
         base_resp = ocr_ehd_warp_pb2.base.BaseResp(status_code=0, status_message="ok")

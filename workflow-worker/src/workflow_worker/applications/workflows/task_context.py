@@ -30,7 +30,7 @@ class TaskContext(object):
         self.task = task
         self.task_uuid = task.id
 
-        self.frame_channels: dict[JobName, None | FrameChannel | list[FrameChannel]] = {}
+        self.frame_channels: dict[JobName, None | FrameChannel | list[FrameChannel] | list[FrameChannel | None]] = {}
         self.event_channels: dict[JobName, None | EventCollector | list[EventCollector]] = {}
 
         self.speech_recognition_result: SpeechRecognitionResult | None = None
@@ -77,7 +77,7 @@ class TaskContext(object):
         report_job = ReportModule()
         job_reporters = report_job.parse_task(self.task)
 
-        job_results = {}
+        job_results: dict[str, Any] = {}
         if self.speech_recognition_result:
             job_results[JobName.SpeechRecognition + "_job_result"] = self.speech_recognition_result
         if self.script_matching_result:

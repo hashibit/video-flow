@@ -15,7 +15,7 @@ class DetectionServicer:
         self._engine = engine or DetectionEngine()
 
     def Predict(self, request, context):  # noqa: N802
-        from workflow_ai.grpc import face_body_detection_pb2  # type: ignore[import]
+        from workflow_proto import face_body_detection_pb2  # type: ignore[import]
 
         images = list(request.imgs)
         logger.info("Detection batch size=%d", len(images))

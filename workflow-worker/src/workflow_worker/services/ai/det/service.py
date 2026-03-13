@@ -3,7 +3,7 @@ from workflow_worker.shared.config._config import settings
 from workflow_worker.domain.entities.frame import BatchFrame
 from workflow_worker.domain.entities.human import Body, Face
 from workflow_worker.domain.entities.service.human_detection import HumanDetectionServiceResult
-from workflow_worker.domain.entities.proto import face_body_detection_pb2, face_body_detection_pb2_grpc
+from workflow_proto import face_body_detection_pb2, face_body_detection_pb2_grpc
 from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.services.ai.service import GRPCService, require_cache
 from workflow_worker.shared.utils.frame import get_batch_image_bytes
@@ -48,8 +48,8 @@ class DetService(GRPCService):
         return self._parse_results(rsp, frames.batch_size, images_index)
 
     def _parse_results(self, rsp, total_count: int, images_index: list[Any]) -> list[HumanDetectionServiceResult]:
-        face_per_frame = [None] * total_count
-        body_per_frame = [None] * total_count
+        face_per_frame: list[list[Face] | None] = [None] * total_count
+        body_per_frame: list[list[Body] | None] = [None] * total_count
 
         for idx, frame_objs in enumerate(rsp.result):
             faces, bodies = [], []

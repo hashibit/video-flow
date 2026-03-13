@@ -1,7 +1,7 @@
 from workflow_worker.shared.config._config import settings
 from workflow_worker.domain.entities.frame import Frame
 from workflow_worker.domain.entities.service.ocr import OCRInfo, OCRInfoType, OCRServiceResult, TextBlock
-from workflow_worker.domain.entities.proto import ocr_normal_pb2, ocr_normal_pb2_grpc
+from workflow_proto import ocr_normal_pb2, ocr_normal_pb2_grpc
 from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.services.ai.ocr.base import BatchOCRService
 from workflow_worker.services.ai.retry import RETRY_UNLIMITED, RetryExhausted, RetryPolicy

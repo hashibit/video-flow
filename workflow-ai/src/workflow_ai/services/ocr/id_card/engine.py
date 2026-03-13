@@ -60,7 +60,7 @@ class IDCardOCREngine:
         if self._ocr is not None:
             return
         try:
-            from paddleocr import PaddleOCR  # type: ignore[import-untyped]
+            from paddleocr import PaddleOCR  # type: ignore[import-untyped] # pyright: ignore[reportMissingImports]
             self._ocr = PaddleOCR(use_angle_cls=True, lang="ch", use_gpu=self.use_gpu)
             logger.info("IDCardOCR engine loaded")
         except ImportError as exc:

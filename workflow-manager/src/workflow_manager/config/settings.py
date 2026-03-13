@@ -2,7 +2,7 @@
 
 import threading
 from pathlib import Path
-from typing import Self
+from typing import Any, Self
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -104,7 +104,7 @@ class Settings(BaseSettings):
         return cls.model_validate(flat_data)
 
     @staticmethod
-    def _process_db_config(db_cfg: dict) -> dict[str, str]:
+    def _process_db_config(db_cfg: dict[str, Any]) -> dict[str, str]:
         """Process database configuration section."""
         result = {}
         if dsn := db_cfg.get("dsn"):
@@ -112,7 +112,7 @@ class Settings(BaseSettings):
         return result
 
     @staticmethod
-    def _process_grpc_config(grpc_cfg: dict) -> dict[str, str]:
+    def _process_grpc_config(grpc_cfg: dict[str, Any]) -> dict[str, str]:
         """Process gRPC configuration section."""
         result = {}
         if endpoint := grpc_cfg.get("endpoint"):
@@ -120,7 +120,7 @@ class Settings(BaseSettings):
         return result
 
     @staticmethod
-    def _process_external_api_config(api_cfg: dict) -> dict[str, str]:
+    def _process_external_api_config(api_cfg: dict[str, Any]) -> dict[str, str]:
         """Process external API configuration section."""
         result = {}
         if psm := api_cfg.get("psm"):
@@ -128,7 +128,7 @@ class Settings(BaseSettings):
         return result
 
     @staticmethod
-    def _process_log_config(log_cfg: dict) -> dict[str, str | bool]:
+    def _process_log_config(log_cfg: dict[str, Any]) -> dict[str, str | bool]:
         """Process logging configuration section."""
         return {
             "enable_curl_log": log_cfg.get("enable_curl_log", False),

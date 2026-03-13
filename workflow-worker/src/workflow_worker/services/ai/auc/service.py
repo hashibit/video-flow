@@ -2,13 +2,13 @@ import json
 import time
 import uuid
 
-import requests
+import requests  # type: ignore[import-untyped]
 
 from workflow_worker.shared.config._config import settings
 from workflow_worker.domain.entities.audio import Audio
 from workflow_worker.domain.entities.dialogue import Dialogue
 from workflow_worker.domain.entities.service.auc import AUCServiceResult
-from workflow_worker.domain.entities.proto import auc_service_pb2, auc_service_pb2_grpc
+from workflow_proto import auc_service_pb2, auc_service_pb2_grpc
 from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.services.ai.service import GRPCService, require_cache
 from workflow_worker.services.ai.auc.postprocess import MistakeCorrectionProcessor, PinyinCorrectionProcessor

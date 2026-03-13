@@ -159,7 +159,8 @@ class SubtitleMatchingModule(ModuleBase):
                     logger.error(f"frame_ch {frame_ch.id} subtitle algo catch exception: {e}")
                     for ch in (frame_ch_list if isinstance(frame_ch_list, list) else []):
                         # Close frame_channel so other subtitle algo can also receive stop notification
-                        ch.mark_close()
+                        if ch:
+                            ch.mark_close()
                     # Re-raise the exception
                     raise e
                 r = fut.result()
@@ -789,7 +790,7 @@ class SubtitleMatchingTracker:
             else:
                 subtitle.miss_frame_times.append(frame.timestamp)
             subtitle.similarity_mapper[frame.timestamp] = total_similarity  # As long as emergency_type=0, similarity values for all time frames will be recorded
-        miss_ids.update(set(valid_subtitles.keys()) - valid_ids)  # Record the id of subtitles that don't meet requirements, i.e., text_index
+        miss_ids.update(set(valid_subtitles.keys()) - valid_ids)  # type: ignore[operator]  # Record the id of subtitles that don't meet requirements, i.e., text_index
         return miss_ids, list(valid_subtitles.values())
 
     def _calc_cover_ratio_diff(

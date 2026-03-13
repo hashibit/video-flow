@@ -1,0 +1,18 @@
+[tool.basedpyright]
+reportImportCycles = false
+
+[tool.uv.workspace]
+members = [
+    "workflow-proto/gen-python",
+    "workflow-manager",
+    "workflow-worker",
+    "workflow-ai",
+]
+
+# Run any sub-project from the root:
+#   uv run --package workflow-manager python -m workflow_manager
+#   uv run --package workflow-worker  python -m workflow_worker.interfaces.cli.worker
+#   uv run --package workflow-ai      python -m workflow_ai
+#
+# Regenerate gRPC stubs:
+#   make -C workflow-proto proto

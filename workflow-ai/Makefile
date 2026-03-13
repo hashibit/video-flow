@@ -1,13 +1,8 @@
-.PHONY: proto build run stop logs dev clean
+.PHONY: proto build run stop logs dev
 
-# Regenerate gRPC Python stubs from proto files
+# Regenerate shared gRPC stubs (delegates to workflow-proto)
 proto:
-	python -m grpc_tools.protoc \
-		-I./proto \
-		--python_out=./src/workflow_ai/grpc \
-		--grpc_python_out=./src/workflow_ai/grpc \
-		./proto/*.proto
-	@echo "gRPC stubs generated."
+	$(MAKE) -C ../workflow-proto proto
 
 # Build Docker image
 build:
@@ -25,10 +20,6 @@ stop:
 logs:
 	docker compose logs -f workflow-ai
 
-# Run locally (requires uv and generated stubs)
-dev: proto
+# Run locally
+dev:
 	uv run python -m workflow_ai
-
-# Clean generated pb2 files
-clean:
-	find src/workflow_ai/grpc -name "*_pb2*.py" -delete

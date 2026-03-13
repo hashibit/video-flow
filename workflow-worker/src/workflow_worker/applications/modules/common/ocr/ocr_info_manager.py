@@ -211,7 +211,7 @@ class OCRInfoManager:
             # Deal with ocr_info which has got the detection bbox,
             # such as doc, id_card.
             bbox = ocr_info.bbox
-            bbox_area = calc_box_area(bbox)  # pyright: ignore[reportArgumentType]
+            bbox_area = calc_box_area(bbox)  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
         elif ocr_info.text_blocks:
             # Deal with ocr_info which does not have the detection bbox but has
             # got the text_block polygon, such as handwriting and normal ocr.

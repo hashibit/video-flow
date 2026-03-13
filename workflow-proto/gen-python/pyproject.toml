@@ -1,0 +1,20 @@
+[project]
+name = "workflow-proto"
+version = "0.1.0"
+description = "Shared gRPC / Protobuf stubs for the video-flow project"
+requires-python = ">=3.11"
+
+dependencies = [
+    "grpcio>=1.60.0",
+    "protobuf>=4.25.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/workflow_proto"]
+
+[tool.ruff]
+exclude = ["src/workflow_proto/*_pb2*.py"]

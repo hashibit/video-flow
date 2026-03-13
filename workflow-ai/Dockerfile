@@ -15,19 +15,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install uv for fast dependency management
 RUN pip install uv --no-cache-dir
 
+# Copy shared proto stubs first (workspace dependency)
+COPY ../workflow-proto/gen-python/ /app/workflow-proto/gen-python/
+
 COPY pyproject.toml .
 COPY src/ src/
-COPY proto/ proto/
 
-# Install dependencies (core + grpc; ML extras are optional and added at build time)
-RUN uv pip install --system --no-cache ".[all]"
-
-# Generate gRPC stubs
-RUN python -m grpc_tools.protoc \
-    -I./proto \
-    --python_out=./src/workflow_ai/grpc \
-    --grpc_python_out=./src/workflow_ai/grpc \
-    ./proto/*.proto
+# Install dependencies (workflow-proto comes from the local workspace path)
+RUN uv pip install --system --no-cache ".[all]" \
+    && uv pip install --system --no-cache /app/workflow-proto/gen-python
 
 EXPOSE 50100 50101 50102 50103 50104 50105 50106
 

@@ -7,6 +7,7 @@ requires-python = ">=3.13"
 
 # 核心依赖 - 必需
 dependencies = [
+    "workflow-proto",
     "asyncio>=3.4.3",
     "dynaconf>=3.2.0",
     "pydantic>=2.9.0",
@@ -81,6 +82,9 @@ dev = [
 all = [
     "workflow-worker[grpc,media,storage,async,database,thrift,tools]",
 ]
+
+[tool.uv.sources]
+workflow-proto = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

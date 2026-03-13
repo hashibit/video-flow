@@ -57,7 +57,7 @@ class ASREngine:
         if self._pipeline is not None:
             return
         try:
-            from funasr import AutoModel  # type: ignore[import-untyped]
+            from funasr import AutoModel  # type: ignore[import-untyped] # pyright: ignore[reportMissingImports]
             self._pipeline = AutoModel(model=self.model_name, device=self.device)
             logger.info("ASR model loaded: %s on %s", self.model_name, self.device)
         except ImportError as exc:
@@ -75,7 +75,7 @@ class ASREngine:
 
         return self._parse(raw)
 
-    def _parse(self, raw: list[dict]) -> ASRResult:
+    def _parse(self, raw: list[dict]) -> ASRResult:  # pyright: ignore[reportMissingTypeArgument]
         utterances: list[Utterance] = []
         full_text_parts: list[str] = []
 

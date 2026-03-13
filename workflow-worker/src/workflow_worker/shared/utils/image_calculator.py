@@ -207,7 +207,7 @@ def calc_piecewise(
     eps = 1e-6
     k1 = (y1 - y0) / (x1 + eps)
     k2 = (y2 - y1) / (1 - x1 + eps)
-    return np.piecewise(  # pyright: ignore[reportReturnType]
+    return np.piecewise(  # type: ignore[return-value] # pyright: ignore[reportReturnType]
         x, [x <= x1, x > x1], [lambda x: y0 + k1 * x, lambda x: y1 + k2 * (x - x1)]  # pyright: ignore[reportOperatorIssue]
     )
 

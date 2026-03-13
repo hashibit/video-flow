@@ -35,7 +35,7 @@ class PersonTrackingProcessor:
     """Processor for person tracking job results."""
 
     def __init__(self) -> None:
-        self.task_uuid = None
+        self.task_uuid: int | None = None
         self.video_duration = 0.0
         self.relation: dict[str, list[dict[str, Any]]] = {}
         self.identity_mapper: dict[str, dict[str, Any] | None] = {}
@@ -222,7 +222,7 @@ class PersonTrackingProcessor:
                 if isinstance(img_bytes, bytes):
                     cv_img = decode_image(img_bytes)
                     x1, y1, x2, y2 = bbox
-                    face_img = cv_img[y1:y2, x1:x2, :]
+                    face_img = cv_img[y1:y2, x1:x2, :]  # pyright: ignore[reportOptionalSubscript]
                     face_bbox = [0, 0, x2 - x1 - 1, y2 - y1 - 1]
                     face_bytes = encode_image(face_img)
             tracking_sequence = {

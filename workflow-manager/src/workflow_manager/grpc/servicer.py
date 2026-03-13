@@ -5,11 +5,11 @@ import logging
 from typing import Any
 
 import grpc
+from workflow_proto import workflow_common_pb2, workflow_manager_pb2, workflow_manager_pb2_grpc
 
 from ..client.external_api import TaskStatus, get_external_api_client
 from ..core.models import JobStatus
 from ..core.services import JobService
-from . import job_manager_pb2, job_manager_pb2_grpc  # type: ignore[attr-defined]
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 MAX_RETRY_TIMES = 10
 
 
-class JobManagerServicer(job_manager_pb2_grpc.JobManagerServiceServicer):
+class JobManagerServicer(workflow_manager_pb2_grpc.JobManagerServiceServicer):  # type: ignore[misc]
     """Implementation of JobManagerService gRPC service."""
 
     def __init__(self) -> None:
@@ -55,7 +55,7 @@ class JobManagerServicer(job_manager_pb2_grpc.JobManagerServiceServicer):
                 logger.info("No pending jobs available")
                 context.set_code(grpc.StatusCode.NOT_FOUND)
                 context.set_details("No jobs available")
-                return job_manager_pb2.GetJobResponse()
+                return workflow_manager_pb2.GetJobResponse()
 
             logger.info(f"Allocated job {job.id} (task_id={job.task_id}) to worker {worker_id}")
 
@@ -68,7 +68,7 @@ class JobManagerServicer(job_manager_pb2_grpc.JobManagerServiceServicer):
                 self._rollback_to_retry(job.id)
                 context.set_code(grpc.StatusCode.INTERNAL)
                 context.set_details(f"Failed to fetch task details: {str(e)}")
-                return job_manager_pb2.GetJobResponse()
+                return workflow_manager_pb2.GetJobResponse()
 
             # Update task status to RUNNING in External API
             try:
@@ -79,14 +79,14 @@ class JobManagerServicer(job_manager_pb2_grpc.JobManagerServiceServicer):
                 self._rollback_to_retry(job.id)
                 context.set_code(grpc.StatusCode.INTERNAL)
                 context.set_details(f"Failed to update task status: {str(e)}")
-                return job_manager_pb2.GetJobResponse()
+                return workflow_manager_pb2.GetJobResponse()
 
             # Create JobInfo response
-            job_info = job_manager_pb2.JobInfo(
+            job_info = workflow_common_pb2.JobInfo(
                 id=job.id, task_id=job.task_id, task_json=task_json
             )
 
-            response = job_manager_pb2.GetJobResponse(job_info=job_info)
+            response = workflow_manager_pb2.GetJobResponse(job_info=job_info)
             logger.info(f"Successfully allocated job {job.id} to worker {worker_id}")
 
             return response
@@ -95,7 +95,7 @@ class JobManagerServicer(job_manager_pb2_grpc.JobManagerServiceServicer):
             logger.error(f"GetJob error: {e}", exc_info=True)
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(str(e))
-            return job_manager_pb2.GetJobResponse()
+            return workflow_manager_pb2.GetJobResponse()
 
     def CreateReport(self, request: Any, context: Any) -> Any:
         """Submit job execution results.
@@ -127,7 +127,7 @@ class JobManagerServicer(job_manager_pb2_grpc.JobManagerServiceServicer):
                 logger.error(f"Job {job_id} not found")
                 context.set_code(grpc.StatusCode.NOT_FOUND)
                 context.set_details(f"Job {job_id} not found")
-                return job_manager_pb2.CreateReportResponse()
+                return workflow_manager_pb2.CreateReportResponse()
 
             # Validate report is not empty
             report_value_json = job_report.value_json.strip()
@@ -164,7 +164,7 @@ class JobManagerServicer(job_manager_pb2_grpc.JobManagerServiceServicer):
 
                 context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
                 context.set_details("Empty report received")
-                return job_manager_pb2.CreateReportResponse(
+                return workflow_manager_pb2.CreateReportResponse(
                     job_id=job_id, task_id=task_id, job_report=job_report
                 )
 
@@ -191,7 +191,7 @@ class JobManagerServicer(job_manager_pb2_grpc.JobManagerServiceServicer):
                 self._rollback_to_retry(job_id)
                 context.set_code(grpc.StatusCode.INTERNAL)
                 context.set_details(f"Failed to submit report: {str(e)}")
-                return job_manager_pb2.CreateReportResponse()
+                return workflow_manager_pb2.CreateReportResponse()
 
             # Update task status to SUCCESS in External API
             try:
@@ -205,7 +205,7 @@ class JobManagerServicer(job_manager_pb2_grpc.JobManagerServiceServicer):
                 )
 
             # Return response
-            response = job_manager_pb2.CreateReportResponse(
+            response = workflow_manager_pb2.CreateReportResponse(
                 job_id=job_id, task_id=task_id, job_report=job_report
             )
             logger.info(f"Successfully processed report for job {job_id}")
@@ -221,7 +221,7 @@ class JobManagerServicer(job_manager_pb2_grpc.JobManagerServiceServicer):
                 logger.error(f"Failed to rollback job {job_id}: {rollback_err}", exc_info=True)
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(str(e))
-            return job_manager_pb2.CreateReportResponse()
+            return workflow_manager_pb2.CreateReportResponse()
 
     def Heartbeat(self, request: Any, context: Any) -> Any:
         """Handle worker heartbeat.
@@ -244,7 +244,7 @@ class JobManagerServicer(job_manager_pb2_grpc.JobManagerServiceServicer):
         logger.debug(f"Heartbeat from worker {worker_id}, running jobs: {running_job_ids}")
 
         # Simple acknowledgment
-        response = job_manager_pb2.HeartbeatResponse(worker_id=worker_id)
+        response = workflow_manager_pb2.HeartbeatResponse(worker_id=worker_id)
 
         return response
 

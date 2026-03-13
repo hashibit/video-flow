@@ -144,7 +144,8 @@ class PersonTrackingModule(ModuleBase):
         tracking_service.sequence_manager.filter_noface_human()
         tracking_result = tracking_service.get_result()
         job_result = PersonTrackingJobResult(
-            human_messages=human_messages, results=tracking_result
+            human_messages=human_messages,  # type: ignore[arg-type]
+            results=tracking_result
         )
         processor = PersonTrackingProcessor()
         # TODO: type renaming

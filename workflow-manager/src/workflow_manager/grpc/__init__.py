@@ -4,8 +4,8 @@ import logging
 from concurrent import futures
 
 import grpc
+from workflow_proto.workflow_manager_pb2_grpc import add_JobManagerServiceServicer_to_server
 
-from .job_manager_pb2_grpc import add_JobManagerServiceServicer_to_server
 from .servicer import JobManagerServicer
 
 logger = logging.getLogger(__name__)

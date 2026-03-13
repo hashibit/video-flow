@@ -22,10 +22,14 @@ class LineType(IntEnum):
 
 @dataclass
 class TextRotatedRect:
-    x0: int; y0: int
-    x1: int; y1: int
-    x2: int; y2: int
-    x3: int; y3: int
+    x0: int
+    y0: int
+    x1: int
+    y1: int
+    x2: int
+    y2: int
+    x3: int
+    y3: int
 
 
 @dataclass
@@ -47,7 +51,7 @@ class HandwritingOCREngine:
         if self._ocr is not None:
             return
         try:
-            from paddleocr import PaddleOCR  # type: ignore[import-untyped]
+            from paddleocr import PaddleOCR  # type: ignore[import-untyped] # pyright: ignore[reportMissingImports]
             self._ocr = PaddleOCR(use_angle_cls=True, lang=self.lang, use_gpu=self.use_gpu)
             logger.info("HandwritingOCR loaded lang=%s", self.lang)
         except ImportError as exc:
@@ -74,7 +78,7 @@ class HandwritingOCREngine:
         raw = self._ocr.ocr(img, cls=True)
         return self._parse(raw)
 
-    def _parse(self, raw: list | None) -> HandwritingOCRResult:
+    def _parse(self, raw: list | None) -> HandwritingOCRResult:  # pyright: ignore[reportMissingTypeArgument]
         if not raw or not raw[0]:
             return HandwritingOCRResult()
 

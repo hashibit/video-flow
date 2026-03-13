@@ -9,10 +9,10 @@ from workflow_worker.domain.entities.report import Report
 from workflow_worker.shared.utils.common import snake_case_to_pascal_case
 from workflow_worker.shared.utils.env import get_env
 
-from workflow_worker.interfaces.api.workflow_common_pb2 import JobInfo, JobReport
-from workflow_worker.interfaces.api.workflow_manager_pb2 import GetJobResponse, GetJobRequest, HeartbeatRequest, CreateReportResponse, \
+from workflow_proto.workflow_common_pb2 import JobInfo, JobReport
+from workflow_proto.workflow_manager_pb2 import GetJobResponse, GetJobRequest, HeartbeatRequest, CreateReportResponse, \
     CreateReportRequest
-from workflow_worker.interfaces.api.workflow_manager_pb2_grpc import JobManagerServiceStub
+from workflow_proto.workflow_manager_pb2_grpc import JobManagerServiceStub
 from workflow_worker.applications.workflows.job_runner import job_runner
 
 

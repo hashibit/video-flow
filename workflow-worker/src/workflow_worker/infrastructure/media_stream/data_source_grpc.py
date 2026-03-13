@@ -4,9 +4,9 @@ import grpc
 
 from workflow_worker.shared.utils.env import get_env
 from workflow_worker.infrastructure.external import media_api
-from workflow_worker.interfaces.api.media_service_pb2 import NotifyStatus, Code
-from workflow_worker.interfaces.api.media_service_pb2 import FetchMediaDataRequest, FetchMediaDataResponse
-from workflow_worker.interfaces.api.media_service_pb2_grpc import MediaServiceStub
+from workflow_proto.media_service_pb2 import NotifyStatus, Code
+from workflow_proto.media_service_pb2 import FetchMediaDataRequest, FetchMediaDataResponse
+from workflow_proto.media_service_pb2_grpc import MediaServiceStub
 from workflow_worker.domain.entities.audio import Audio, Word, Utterance, AudioMeta
 from workflow_worker.domain.entities.frame import Frame
 from workflow_worker.domain.entities.task import Task, MediaMeta

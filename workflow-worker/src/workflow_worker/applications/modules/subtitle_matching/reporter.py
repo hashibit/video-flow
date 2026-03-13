@@ -62,7 +62,7 @@ class SubtitleMatchingReporter(Reporter):
 
             elif recog_result.text_type == 1:
                 rule_text = rule_text_map[recog_result.id]  # Corresponding rule configuration by id
-                if recog_text_ratio < rule_text.cumulative_threshold:  # If current display ratio is below configured ratio
+                if recog_text_ratio < rule_text.cumulative_threshold:  # type: ignore[operator]  # If current display ratio is below configured ratio
                     reasons.append(
                         f"Cumulative ratio {recog_text_ratio: .2f} "
                         f"is below the configured threshold {rule_text.cumulative_threshold: .2f}"

@@ -95,7 +95,7 @@ class Utterance(BaseModel):
 
     def __setitem__(self, key: int | slice, val: "str | list[str]") -> None:
         if isinstance(key, int):
-            self.words[key].text = val  # pyright: ignore[reportAttributeAccessIssue]
+            self.words[key].text = val  # type: ignore[assignment] # pyright: ignore[reportAttributeAccessIssue]
             return
 
         if isinstance(key, slice):
@@ -203,7 +203,7 @@ class Dialogue(BaseModel):
 
     def __setitem__(self, key: int | slice, val: "str | list[str]") -> None:
         if isinstance(key, int):
-            self.words[key].text = val  # pyright: ignore[reportAttributeAccessIssue]
+            self.words[key].text = val  # type: ignore[assignment] # pyright: ignore[reportAttributeAccessIssue]
             return
 
         if isinstance(key, slice):

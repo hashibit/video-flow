@@ -24,7 +24,7 @@ class ReportModule:
         Returns:
             dict[str, Reporter]: all reporter objects.
         """
-        reporters = {}
+        reporters: dict[str, Reporter] = {}
         for rule_section in task.scenario.rule_sections:
             rule_point = rule_section.rule_points[0]
             if not rule_point:

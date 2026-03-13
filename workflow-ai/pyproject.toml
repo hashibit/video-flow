@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 
 dependencies = [
+    "workflow-proto",
     "grpcio>=1.60.0",
     "grpcio-tools>=1.60.0",
     "protobuf>=4.25.0",
@@ -48,6 +49,9 @@ dev = [
 all = [
     "workflow-ai[asr,detection,face_feature,ocr]",
 ]
+
+[tool.uv.sources]
+workflow-proto = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

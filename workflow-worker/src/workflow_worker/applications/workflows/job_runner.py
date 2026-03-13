@@ -4,7 +4,7 @@ import os
 from typing import Any, cast
 
 import logging as pylogging
-from workflow_worker.interfaces.api.workflow_common_pb2 import JobInfo, JobReport
+from workflow_proto.workflow_common_pb2 import JobInfo, JobReport
 from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.domain.entities.report import Report
 from workflow_worker.domain.entities.task import Task

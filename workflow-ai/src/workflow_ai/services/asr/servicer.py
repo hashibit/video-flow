@@ -41,7 +41,7 @@ class AucServicer:
     # ------------------------------------------------------------------
 
     def Submit(self, request, context):  # noqa: N802
-        from workflow_ai.grpc import auc_service_pb2  # type: ignore[import]
+        from workflow_proto import auc_service_pb2  # type: ignore[import]
 
         task_id = uuid.uuid4().hex
         audio_url = request.audio.url
@@ -58,7 +58,7 @@ class AucServicer:
         return auc_service_pb2.AucSubmitResponse(resp=resp)
 
     def Query(self, request, context):  # noqa: N802
-        from workflow_ai.grpc import auc_service_pb2  # type: ignore[import]
+        from workflow_proto import auc_service_pb2  # type: ignore[import]
 
         task_id = request.id
         result = self._results.get(task_id)

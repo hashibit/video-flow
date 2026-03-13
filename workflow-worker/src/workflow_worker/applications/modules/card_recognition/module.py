@@ -60,7 +60,7 @@ class CardRecognitionModule(ModuleBase):
             for rule_section in task.rule.rule_sections:
                 for rule_point in rule_section.rule_points:
                     if rule_point:
-                        configs.extend(self._get_card_recog_cfg(rule_point, task.participants))  # pyright: ignore[reportArgumentType]
+                        configs.extend(self._get_card_recog_cfg(rule_point, task.participants))  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
         return CardRecognitionJobCfg(
             fps=task.rule.fps if task.rule else 2.0, batch_size=10, media=task.media, configs=configs
         )
@@ -128,7 +128,7 @@ class CardRecognitionModule(ModuleBase):
                     single_cfg = SingleCardRecognitionJobCfg(
                         id=rule_point.id,
                         frame_infos={},
-                        card_infos=contents,
+                        card_infos=contents,  # type: ignore[arg-type]
                         card_id=card_id,
                         need_detection=True,  # Detection is needed by default
                         detection_threshold=detect_threshold,
@@ -232,7 +232,7 @@ class CardRecognitionModule(ModuleBase):
                         draw_box(cv_img, bbox, (0, 255, 0))
                     elif bbox and len(bbox) == 8:
                         draw_polygon(cv_img, bbox, (0, 255, 0))
-                    drawed_img_bytes = encode_image(cv_img)
+                    drawed_img_bytes = encode_image(cv_img)  # pyright: ignore[reportArgumentType]
                     url = get_storage_url(self.task_uuid, drawed_img_bytes)
                     job_result.url = url
                     job_result.frame.url = url
@@ -258,7 +258,7 @@ class CardRecognitionModule(ModuleBase):
                 card_contents = cfg.card_infos
                 tracker.need_recognition = True
             tracker.append_contents(
-                cfg.card_id, card_contents, key_fields=cfg.recog_keys  # pyright: ignore[reportArgumentType]
+                cfg.card_id, card_contents, key_fields=cfg.recog_keys  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
             )
 
     def _parse(

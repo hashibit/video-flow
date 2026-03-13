@@ -20,4 +20,4 @@ class SubtitleMatchingReport(BaseModel):
 
     status: str = "passed"
     reasons: list[str]
-    result: list[SubtitleMatchingSingleResult | None] = []
+    result: list[SubtitleMatchingSingleResult] = []

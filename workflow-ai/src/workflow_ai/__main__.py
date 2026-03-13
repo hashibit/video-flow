@@ -31,7 +31,7 @@ _SERVICES = ["asr", "detection", "face_feature", "ocr_general", "ocr_handwriting
 
 
 def _add_asr(server: grpc.Server) -> None:
-    from workflow_ai.grpc import auc_service_pb2_grpc  # type: ignore[import]
+    from workflow_proto import auc_service_pb2_grpc  # type: ignore[import]
     from workflow_ai.services.asr import AucServicer
     auc_service_pb2_grpc.add_AucServiceServicer_to_server(AucServicer(), server)
     server.add_insecure_port(settings.asr_endpoint)
@@ -39,7 +39,7 @@ def _add_asr(server: grpc.Server) -> None:
 
 
 def _add_detection(server: grpc.Server) -> None:
-    from workflow_ai.grpc import face_body_detection_pb2_grpc  # type: ignore[import]
+    from workflow_proto import face_body_detection_pb2_grpc  # type: ignore[import]
     from workflow_ai.services.detection import DetectionServicer
     face_body_detection_pb2_grpc.add_DetectionServiceServicer_to_server(DetectionServicer(), server)
     server.add_insecure_port(settings.detection_endpoint)
@@ -47,7 +47,7 @@ def _add_detection(server: grpc.Server) -> None:
 
 
 def _add_face_feature(server: grpc.Server) -> None:
-    from workflow_ai.grpc import face_process_pb2_grpc  # type: ignore[import]
+    from workflow_proto import face_process_pb2_grpc  # type: ignore[import]
     from workflow_ai.services.face_feature import FaceProcessServicer
     face_process_pb2_grpc.add_FaceProcessServicer_to_server(FaceProcessServicer(), server)
     server.add_insecure_port(settings.face_feature_endpoint)
@@ -55,7 +55,7 @@ def _add_face_feature(server: grpc.Server) -> None:
 
 
 def _add_ocr_general(server: grpc.Server) -> None:
-    from workflow_ai.grpc import ocr_normal_pb2_grpc  # type: ignore[import]
+    from workflow_proto import ocr_normal_pb2_grpc  # type: ignore[import]
     from workflow_ai.services.ocr.general import OCRServicer
     ocr_normal_pb2_grpc.add_OCRServiceServicer_to_server(OCRServicer(), server)
     server.add_insecure_port(settings.ocr_general_endpoint)
@@ -63,7 +63,7 @@ def _add_ocr_general(server: grpc.Server) -> None:
 
 
 def _add_ocr_handwriting(server: grpc.Server) -> None:
-    from workflow_ai.grpc import hw_ocr_pb2_grpc  # type: ignore[import]
+    from workflow_proto import hw_ocr_pb2_grpc  # type: ignore[import]
     from workflow_ai.services.ocr.handwriting import OCRHwServicer
     hw_ocr_pb2_grpc.add_OCRHwServiceServicer_to_server(OCRHwServicer(), server)
     server.add_insecure_port(settings.ocr_handwriting_endpoint)
@@ -71,7 +71,7 @@ def _add_ocr_handwriting(server: grpc.Server) -> None:
 
 
 def _add_ocr_document(server: grpc.Server) -> None:
-    from workflow_ai.grpc import ocr_ehd_warp_pb2_grpc  # type: ignore[import]
+    from workflow_proto import ocr_ehd_warp_pb2_grpc  # type: ignore[import]
     from workflow_ai.services.ocr.document import OcrEHDWarpServicer
     ocr_ehd_warp_pb2_grpc.add_OcrEHDWarpServiceServicer_to_server(OcrEHDWarpServicer(), server)
     server.add_insecure_port(settings.ocr_document_endpoint)
@@ -79,7 +79,7 @@ def _add_ocr_document(server: grpc.Server) -> None:
 
 
 def _add_ocr_id_card(server: grpc.Server) -> None:
-    from workflow_ai.grpc import id_card_ocr_pb2_grpc  # type: ignore[import]
+    from workflow_proto import id_card_ocr_pb2_grpc  # type: ignore[import]
     from workflow_ai.services.ocr.id_card import CardOCRServicer
     id_card_ocr_pb2_grpc.add_CardOCRServicer_to_server(CardOCRServicer(), server)
     server.add_insecure_port(settings.ocr_id_card_endpoint)

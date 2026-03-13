@@ -1,7 +1,7 @@
 from typing import Any
 from workflow_worker.shared.config._config import settings
 from workflow_worker.domain.entities.frame import BatchFrame, Frame
-from workflow_worker.domain.entities.proto import face_process_pb2, face_process_pb2_grpc, featurePB_pb2
+from workflow_proto import face_process_pb2, face_process_pb2_grpc, featurePB_pb2
 from workflow_worker.shared.logging._logging import get_logger
 from workflow_worker.services.ai.service import GRPCService, require_cache
 from workflow_worker.shared.utils.frame import get_batch_image_bytes
@@ -43,7 +43,7 @@ class FeatService(GRPCService):
     ) -> bool:
         """Return True when the two faces are similar enough to be the same person."""
         if face_a_feature and face_b_feature:
-            similarity = 1.0 - cal_cosine_distance(face_a_feature, face_b_feature)  # pyright: ignore[reportArgumentType]
+            similarity = 1.0 - cal_cosine_distance(face_a_feature, face_b_feature)  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
         else:
             similarity = self._get_similarity(face_a, face_b, face_a_bbox, face_b_bbox)
         return similarity >= self.threshold
