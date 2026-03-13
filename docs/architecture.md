@@ -153,6 +153,115 @@ Each `FrameChannel` is an independent ring queue. Jobs only consume from their o
 
 ---
 
+## Control Flow & Data Flow
+
+### Vertical Control Flow（纵向控制流）
+
+一个任务请求自上而下穿越所有层级：
+
+```
+外部平台 (REST POST /jobs)
+    │
+    ▼
+workflow-manager
+    · JobManagerServicer 入队 → PENDING
+    · APScheduler 定期投递给 Worker
+    │ gRPC: GetJob → JobInfo
+    ▼
+Interfaces Layer  ·  interfaces/cli/worker.py
+    · 每 10 s 轮询，维持 ≤4 并发任务
+    · 解析 JobInfo，启动 run_job()
+    │
+    ▼
+Applications Layer  ·  applications/workflows/job_runner.py
+    · 反序列化 task_json → Task 实体
+    · 创建 TaskContext（挂载 frame/event 通道）
+    · 两阶段编排（Phase 1 媒体模块 → Phase 2 分析模块）
+    │
+    ├─► applications/modules/factory.py
+    │       按 RulePoint 实例化各 Module，注册通道
+    │
+    ▼
+Infrastructure Layer  ·  infrastructure/media_stream/
+    · 启动三线程管道：stream / dispatch / stat
+    · 解码视频，按 FPS 分发到各 FrameChannel
+    │
+    ▼
+Services Layer  ·  services/ai/{auc, det, feat, track, ocr}/
+    · Module 调用对应 gRPC 客户端
+    · 请求 workflow-ai 完成实际推理
+    │ AI 推理结果
+    ▼
+Domain Layer  ·  domain/entities/
+    · Task / Report / Dialogue / Frame …
+    · 零外部依赖，纯业务结构
+```
+
+每层只向内依赖；Domain 是最内核，对框架和 I/O 一无所知。
+
+---
+
+### Horizontal Data Flow（横向数据流）
+
+同层组件之间，媒体和分析结果的流向：
+
+```
+视频 URL / 文件
+    │
+    ▼
+DataSource（ffmpeg 解码 / gRPC Media Manager）
+    │
+    ▼
+CircularQueue（环形缓冲，1024 帧）
+    │
+    ▼  dispatch_thread 按模块 FPS 扇出
+    ┌──────────┬──────────┬──────────┬──────────┐
+    ▼          ▼          ▼          ▼          ▼
+OCR 通道   Det 通道  Track 通道  Card 通道  音频
+ 5 fps      25 fps    25 fps      5 fps
+    │          │          │          │          │
+    │          └────┬─────┘          │          │
+    │               │                │          │
+    ▼               ▼                ▼          ▼
+SubtitleMatching  PersonTracking  Card/Sign  SpeechRecognition
+  (OCR gRPC)    (Det+Track gRPC)  (OCR gRPC)  (AUC/ASR gRPC)
+    │               │                │          │
+    └───────────────┴────────────────┴──────────┘
+                            │
+                       ← Phase 1 结束，结果写入 TaskContext →
+
+                            │  以 Phase 1 结果为输入
+                    ┌───────┴──────────┐
+                    ▼                  ▼
+             ScriptMatching    BannedWordDetection
+              (对比台词文本)      (过滤违禁词)
+                    │                  │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                        TaskContext
+                     ┌─────────────────┐
+                     │ speech_result   │
+                     │ tracking_result │
+                     │ subtitle_result │
+                     │ script_result   │
+                     │ banned_result   │
+                     └────────┬────────┘
+                              │
+                              ▼
+                        ReportModule
+                    按 RulePoint 聚合 → Report JSON
+                              │
+                              │ gRPC: CreateReport
+                              ▼
+                       workflow-manager
+                    更新状态 → 上报外部平台
+```
+
+**两阶段的意义**：Phase 1 各模块独立消费帧流，互不干扰；Phase 2 在 Phase 1 完成后才启动，避免音视频资源与文本分析竞争。每个 FrameChannel 是独立的环形队列，一个模块阻塞不影响其他模块。
+
+---
+
 ## Key Domain Entities
 
 | Entity | Description |
