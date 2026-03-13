@@ -155,69 +155,69 @@ Each `FrameChannel` is an independent ring queue. Jobs only consume from their o
 
 ## Control Flow & Data Flow
 
-### Vertical Control Flow（纵向控制流）
+### Vertical Control Flow
 
-一个任务请求自上而下穿越所有层级：
+A job request flows top-down through every architectural layer:
 
 ```
-外部平台 (REST POST /jobs)
+External Platform  (REST POST /jobs)
     │
     ▼
 workflow-manager
-    · JobManagerServicer 入队 → PENDING
-    · APScheduler 定期投递给 Worker
+    · Enqueues job → PENDING
+    · APScheduler dispatches to waiting workers
     │ gRPC: GetJob → JobInfo
     ▼
 Interfaces Layer  ·  interfaces/cli/worker.py
-    · 每 10 s 轮询，维持 ≤4 并发任务
-    · 解析 JobInfo，启动 run_job()
+    · Polls every 10 s, maintains ≤4 concurrent tasks
+    · Parses JobInfo, launches run_job()
     │
     ▼
 Applications Layer  ·  applications/workflows/job_runner.py
-    · 反序列化 task_json → Task 实体
-    · 创建 TaskContext（挂载 frame/event 通道）
-    · 两阶段编排（Phase 1 媒体模块 → Phase 2 分析模块）
+    · Deserializes task_json → Task entity
+    · Creates TaskContext (attaches frame/event channels)
+    · Two-phase orchestration (Phase 1: media modules → Phase 2: analysis modules)
     │
     ├─► applications/modules/factory.py
-    │       按 RulePoint 实例化各 Module，注册通道
+    │       Instantiates Modules per RulePoint, registers channels
     │
     ▼
 Infrastructure Layer  ·  infrastructure/media_stream/
-    · 启动三线程管道：stream / dispatch / stat
-    · 解码视频，按 FPS 分发到各 FrameChannel
+    · Starts three-thread pipeline: stream / dispatch / stat
+    · Decodes video frames, fans out to each FrameChannel at per-module FPS
     │
     ▼
 Services Layer  ·  services/ai/{auc, det, feat, track, ocr}/
-    · Module 调用对应 gRPC 客户端
-    · 请求 workflow-ai 完成实际推理
-    │ AI 推理结果
+    · Each Module calls its gRPC client
+    · Delegates actual inference to workflow-ai
+    │ AI inference results
     ▼
 Domain Layer  ·  domain/entities/
     · Task / Report / Dialogue / Frame …
-    · 零外部依赖，纯业务结构
+    · Zero external dependencies — pure business structures
 ```
 
-每层只向内依赖；Domain 是最内核，对框架和 I/O 一无所知。
+Each layer depends only on layers further inward. The Domain layer is the innermost core and knows nothing about frameworks or I/O.
 
 ---
 
-### Horizontal Data Flow（横向数据流）
+### Horizontal Data Flow
 
-同层组件之间，媒体和分析结果的流向：
+How media and analysis results move between components at the same level:
 
 ```
-视频 URL / 文件
+Video URL / file
     │
     ▼
-DataSource（ffmpeg 解码 / gRPC Media Manager）
+DataSource  (FFmpeg decode / gRPC Media Manager)
     │
     ▼
-CircularQueue（环形缓冲，1024 帧）
+CircularQueue  (ring buffer, 1024 frames)
     │
-    ▼  dispatch_thread 按模块 FPS 扇出
+    ▼  dispatch_thread fans out frames at per-module FPS
     ┌──────────┬──────────┬──────────┬──────────┐
     ▼          ▼          ▼          ▼          ▼
-OCR 通道   Det 通道  Track 通道  Card 通道  音频
+OCR ch     Det ch    Track ch   Card ch    Audio
  5 fps      25 fps    25 fps      5 fps
     │          │          │          │          │
     │          └────┬─────┘          │          │
@@ -228,13 +228,13 @@ SubtitleMatching  PersonTracking  Card/Sign  SpeechRecognition
     │               │                │          │
     └───────────────┴────────────────┴──────────┘
                             │
-                       ← Phase 1 结束，结果写入 TaskContext →
+                     ←── Phase 1 complete; results written to TaskContext ──►
 
-                            │  以 Phase 1 结果为输入
+                            │  Phase 2 consumes Phase 1 results
                     ┌───────┴──────────┐
                     ▼                  ▼
              ScriptMatching    BannedWordDetection
-              (对比台词文本)      (过滤违禁词)
+            (dialogue vs script)  (forbidden words)
                     │                  │
                     └────────┬─────────┘
                              │
@@ -250,15 +250,15 @@ SubtitleMatching  PersonTracking  Card/Sign  SpeechRecognition
                               │
                               ▼
                         ReportModule
-                    按 RulePoint 聚合 → Report JSON
+                  aggregates per RulePoint → Report JSON
                               │
                               │ gRPC: CreateReport
                               ▼
                        workflow-manager
-                    更新状态 → 上报外部平台
+                  updates job status → submits to external platform
 ```
 
-**两阶段的意义**：Phase 1 各模块独立消费帧流，互不干扰；Phase 2 在 Phase 1 完成后才启动，避免音视频资源与文本分析竞争。每个 FrameChannel 是独立的环形队列，一个模块阻塞不影响其他模块。
+**Why two phases?** Phase 1 modules consume the frame stream independently and in parallel — each module has its own isolated FrameChannel ring buffer, so a slow module does not block others. Phase 2 starts only after Phase 1 finishes, avoiding contention between media I/O and text analysis.
 
 ---
 
